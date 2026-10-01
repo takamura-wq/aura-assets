@@ -215,7 +215,7 @@
                 <h3 id="prompt-title" class="font-mono font-bold tracking-widest text-sm md:text-base">TERMINAL ACCESS</h3>
             </div>
             <p id="prompt-desc" class="text-xs text-slate-400 font-mono mb-3">Enter decryption key:</p>
-            <input type="password" id="prompt-input" class="cyber-input mb-6 text-sm" autocomplete="off" placeholder="••••••••">
+            <input type="password" id="prompt-input" class="cyber-input mb-6 text-sm" autocomplete="off" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
             <div class="flex gap-3">
                 <button onclick="closePrompt(false)" class="flex-1 py-3 bg-black/50 hover:bg-white/5 border border-slate-700 text-slate-400 rounded font-mono font-bold transition-all active:scale-95 text-xs">CANCEL</button>
                 <button id="prompt-submit-btn" onclick="closePrompt(true)" class="flex-1 py-3 btn-cyber rounded font-mono font-bold transition-all active:scale-95 text-xs">AUTHORIZE</button>
@@ -258,7 +258,7 @@
                                     </div>
                                     <div class="flex-1 min-w-0 pt-1">
                                         <h3 class="text-white font-bold text-sm tracking-wide truncate group-hover:text-cyber-400">${item.nama}</h3>
-                                        <span class="inline-block mt-1 text-[9px] uppercase font-mono bg-black border border-cyber-500/30 text-cyber-400 px-1.5 py-[2px] rounded">${item.format} • ${item.size}</span>
+                                        <span class="inline-block mt-1 text-[9px] uppercase font-mono bg-black border border-cyber-500/30 text-cyber-400 px-1.5 py-[2px] rounded">${item.format} â€¢ ${item.size}</span>
                                     </div>
                                 </div>
                                 <p class="text-slate-400 text-[10px] md:text-xs leading-relaxed font-mono flex-1 mb-5 group-hover:text-slate-300">${item.deskripsi}</p>
@@ -452,11 +452,36 @@
                 if (['.jpg', '.jpeg'].includes(extStr)) mimeType = 'image/jpeg';
                 else if (extStr === '.png') mimeType = 'image/png';
                 else if (extStr === '.mp4') mimeType = 'video/mp4';
+                else if (extStr === '.txt') mimeType = 'text/plain';
 
+                const container = document.getElementById('media-container');
+
+                // TAMBAHAN LOGIKA UNTUK FILE TEKS / LINK (.txt)
+                if (extStr === '.txt') {
+                    const textContent = new TextDecoder().decode(fileBytes);
+                    
+                    // Gunakan .trim() untuk berjaga-jaga jika ada spasi berlebih di file teks
+                    if (textContent.trim().startsWith('http')) {
+                        container.innerHTML = `
+                            <div class="text-center bg-black/50 p-8 rounded-xl border border-cyber-500/30 w-full max-w-md shadow-[0_0_30px_rgba(245,158,11,0.1)]">
+                                <i class="fas fa-link text-5xl text-cyber-400 mb-5 block animate-pulse"></i>
+                                <h2 class="text-white text-lg font-mono font-bold mb-6">SECURE LINK DECRYPTED</h2>
+                                <a href="${textContent.trim()}" target="_blank" class="w-full py-3 btn-cyber rounded font-mono font-bold transition-all block">OPEN LINK IN NEW TAB</a>
+                            </div>
+                        `;
+                    } else {
+                        container.innerHTML = `<div class="bg-black/80 p-6 rounded border border-cyber-500/30 text-cyber-400 font-mono whitespace-pre-wrap break-words w-full text-sm">${textContent}</div>`;
+                    }
+
+                    document.body.style.overflow = 'hidden';
+                    document.getElementById('secret-vault').classList.add('active');
+                    return; // Stop di sini agar kode media di bawahnya tidak dieksekusi
+                }
+
+                // LANJUTAN LOGIKA UNTUK MEDIA (Gambar / Video)
                 const blob = new Blob([fileBytes], { type: mimeType });
                 const mediaUrl = URL.createObjectURL(blob);
 
-                const container = document.getElementById('media-container');
                 if (mimeType.startsWith('video/')) {
                     container.innerHTML = `<video src="${mediaUrl}" controls autoplay controlsList="nodownload"></video>`;
                 } else {
