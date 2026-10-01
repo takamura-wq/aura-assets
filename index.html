@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURA ASSETS | Creator Hub</title>
+    <title>Aura Assets | Creator Tools</title>
     
     <!-- Preconnect & Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,7 +45,7 @@
             -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
+            background-image: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
         }
         
         .mono { font-family: 'JetBrains Mono', monospace; }
@@ -62,23 +62,7 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(245, 158, 11, 0.15);
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.9), 
-                        inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        }
-
-        /* Dark Input */
-        .input-dark {
-            background-color: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            color: #f8fafc;
-            transition: all 0.3s ease;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
-        }
-        .input-dark:focus {
-            border-color: #facc15;
-            background-color: rgba(0, 0, 0, 0.8);
-            box-shadow: 0 0 10px rgba(245, 158, 11, 0.2), inset 0 2px 4px rgba(0,0,0,0.8);
-            outline: none;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         /* Cyber Button */
@@ -104,47 +88,48 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        .animate-fade-up {
-            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
+        .animate-fade-up { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .cursor-blink { animation: blink 1s step-end infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* Glitch Effect */
-        .glitch { position: relative; display: inline-block; }
-        .glitch::before, .glitch::after {
-            content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: transparent; pointer-events: none;
-        }
-        .glitch::before {
-            left: 2px; text-shadow: -2px 0 #facc15; clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 4s infinite linear alternate-reverse;
-        }
-        .glitch::after {
-            left: -2px; text-shadow: -2px 0 #ef4444, 2px 2px #f97316; clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim2 4s infinite linear alternate-reverse;
-        }
-        @keyframes glitch-anim { 0%, 95% { clip: rect(0,0,0,0); } 96% { clip: rect(10px, 9999px, 31px, 0); transform: skew(0.5deg); } 98% { clip: rect(24px, 9999px, 12px, 0); transform: skew(-0.5deg); } 100% { clip: rect(0, 0, 0, 0); } }
-        @keyframes glitch-anim2 { 0%, 95% { clip: rect(0,0,0,0); } 96% { clip: rect(65px, 9999px, 100px, 0); transform: translate(-2px, 2px); } 98% { clip: rect(5px, 9999px, 40px, 0); transform: translate(2px, -2px); } 100% { clip: rect(0, 0, 0, 0); } }
-
-        /* Modals & Overlays */
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            z-index: 100; display: flex; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-        }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        
-        /* Brankas Rahasia */
+        /* Secret Vault Overlay */
         #secret-vault {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-            z-index: 999; overflow-y: auto; padding: 40px 20px;
+            position: fixed; inset: 0; background: rgba(2, 2, 3, 0.98);
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            z-index: 9999; display: flex; flex-direction: column;
+            opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+            overflow-y: auto; padding: 20px;
         }
+        #secret-vault.active { opacity: 1; pointer-events: auto; }
+        #media-container { max-width: 900px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; }
+        #media-container video, #media-container img { width: 100%; border-radius: 12px; box-shadow: 0 0 40px rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); }
+
+        /* Custom Modals (Pop-up) */
+        .cyber-modal-overlay {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            z-index: 10000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px;
+        }
+        .cyber-modal-overlay.active { opacity: 1; pointer-events: auto; }
         
+        .cyber-modal {
+            transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 100%; max-width: 400px;
+        }
+        .cyber-modal-overlay.active .cyber-modal { transform: scale(1); }
+
+        .cyber-input {
+            background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #facc15; padding: 12px 15px; width: 100%; border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace; outline: none; transition: all 0.2s;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .cyber-input:focus {
+            border-color: #facc15; box-shadow: 0 0 15px rgba(245, 158, 11, 0.2), inset 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #d97706; border-radius: 4px; }
@@ -158,125 +143,106 @@
 
     <div class="w-full max-w-4xl flex flex-col gap-6 md:gap-8 relative z-10 mx-auto pb-12">
         
-        <!-- Top Navbar -->
+        <!-- HEADER / NAVBAR (STEALTH TRIGGER) -->
         <nav class="glass-panel rounded-xl p-3 md:p-4 flex justify-between items-center z-20 sticky top-2 sm:top-4 opacity-0 animate-fade-up" style="animation-delay: 0ms;">
-            <div class="flex items-center gap-3 font-bold text-lg text-white mx-1">
-                <div class="w-10 h-10 rounded bg-cyber-500/20 border border-cyber-400/50 flex items-center justify-center text-cyber-400 shadow-[0_0_15px_rgba(245,158,11,0.3)]">
-                    <i class="fas fa-layer-group"></i>
-                </div>
-                <span class="tracking-wide hidden sm:block mono text-sm text-slate-400">sys.aura_assets_</span>
+            
+            <!-- TRIGGER RAHASIA: Tulisan ini terlihat sepele, gaya terminal, tidak mencolok -->
+            <div id="logo" class="flex items-center gap-2 font-mono text-xs md:text-sm text-slate-500 cursor-default select-none py-2 pl-2 pr-4 rounded">
+                <i class="fas fa-terminal text-cyber-500/50"></i>
+                <span>sys.aura_assets<span class="cursor-blink text-cyber-400">_</span></span>
             </div>
             
-            <div class="px-4 py-2 rounded bg-black/50 border border-cyber-500/30 text-cyber-400 font-mono text-xs flex items-center gap-2 shadow-[0_0_10px_rgba(245,158,11,0.1)]">
-                <i class="fas fa-fire text-orange-500"></i> 10K+ DL/Today
+            <!-- ALIBI TRAFFIC -->
+            <div class="flex items-center gap-2 bg-black/50 border border-cyber-500/20 px-3 py-1.5 rounded-full">
+                <i class="fas fa-fire text-orange-500 text-[10px] animate-pulse"></i>
+                <span class="font-mono text-[10px] text-slate-300">10K+ DL/Today</span>
             </div>
         </nav>
 
-        <!-- Profile / Hero Section -->
-        <div class="flex flex-col items-center text-center mt-2 relative z-10 opacity-0 animate-fade-up" style="animation-delay: 150ms;">
-            
-            <!-- Avatar (Trigger Rahasia: Klik 5x) -->
-            <div class="relative mb-5 group cursor-default" id="avatar-trigger">
-                <div class="absolute inset-[-10px] border-2 border-dashed border-cyber-500/40 rounded-full animate-[spin_10s_linear_infinite] transition-all"></div>
-                <!-- Ganti gambar profil dengan logo atau gambarmu -->
-                <div class="relative w-24 h-24 md:w-28 md:h-28 rounded-full bg-black border-2 border-cyber-500 shadow-[0_0_30px_rgba(245,158,11,0.4)] z-10 flex items-center justify-center text-4xl text-cyber-400 select-none">
-                    <i class="fas fa-box-open"></i>
-                </div>
-            </div>
-            
-            <!-- Judul -->
-            <h1 class="glitch text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-2 uppercase" data-text="Aura Assets">Aura Assets</h1>
-            <p class="text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyber-400 to-orange-500 uppercase tracking-widest mb-4 drop-shadow-[0_0_5px_rgba(245,158,11,0.5)]">Free Creator Hub</p>
-            <p id="profile-bio" class="text-xs md:text-sm text-slate-400 leading-relaxed max-w-md mx-auto px-4 font-mono min-h-[40px]"></p>
+        <!-- HERO SECTION -->
+        <div class="flex flex-col items-center text-center mt-4 relative z-10 opacity-0 animate-fade-up" style="animation-delay: 150ms;">
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-3">Free Assets for <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-400 to-cyber-600">Creators</span></h1>
+            <p class="text-xs md:text-sm text-slate-400 leading-relaxed max-w-lg mx-auto px-4 mb-2">
+                Download free LUTs, transitions, and overlays. As a thank you to my subscribers, all assets here are 100% free to use in your projects.
+            </p>
         </div>
 
-        <!-- Project Modules / Asset Grid -->
-        <main class="flex flex-col gap-4 mt-6 relative z-10 w-full">
-            <div class="flex items-center gap-3 mb-2 px-1 opacity-0 animate-fade-up" style="animation-delay: 250ms;">
-                <div class="w-3 h-3 rounded-sm bg-cyber-400 shadow-[0_0_12px_rgba(250,204,21,1)] animate-pulse"></div>
-                <h2 class="text-xs md:text-sm font-extrabold text-white tracking-widest uppercase">Available Assets</h2>
-                <div class="h-px flex-1 bg-gradient-to-r from-cyber-500/50 to-transparent"></div>
-            </div>
-
-            <div id="assets-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5 w-full">
-                <!-- Data Aset Akan Dirender Lewat JS -->
+        <!-- ASSETS GRID (KAMUFLASE) -->
+        <main class="flex flex-col gap-4 mt-2 relative z-10 w-full">
+            <div id="assets-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 w-full">
+                <!-- Aset akan di-render via JavaScript -->
             </div>
         </main>
         
-        <footer class="py-6 mt-8 border-t border-cyber-500/20 text-center opacity-0 animate-fade-up" style="animation-delay: 600ms;">
-             <p class="text-[10px] text-cyber-500/50 font-mono tracking-widest uppercase">System Online // v3.0</p>
+        <!-- FOOTER -->
+        <footer class="py-6 mt-4 border-t border-cyber-500/20 text-center opacity-0 animate-fade-up" style="animation-delay: 600ms;">
+             <p class="text-[10px] text-cyber-500/50 font-mono tracking-widest uppercase">sys.aura_assets // Online</p>
         </footer>
     </div>
 
-    <!-- MODAL POP-UP CUSTOM (UNTUK FAKE DOWNLOAD & AUTH BRANKAS) -->
-    <div id="auth-modal" class="modal-overlay">
-        <div class="transform scale-95 transition-all duration-300 relative w-[90%] max-w-sm glass-panel rounded-xl p-6" id="auth-content">
-            <div class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-yellow-300 via-cyber-500 to-orange-600"></div>
-            
-            <h3 id="modal-title" class="text-sm font-bold text-white mb-4 tracking-widest uppercase mono">Enter License Key:</h3>
-            
-            <input type="text" id="modal-input" class="w-full input-dark rounded px-3 py-3 text-sm mono mb-4" placeholder="Paste token here..." autocomplete="off">
-            
-            <!-- Pesan Error / Alert -->
-            <div id="modal-error" class="hidden text-red-500 text-xs mono mb-4 leading-relaxed"></div>
-            
-            <div id="modal-actions" class="flex justify-end gap-3 mt-2">
-                <button onclick="closeAuthModal()" class="px-4 py-2 rounded text-xs font-bold text-slate-400 hover:text-white transition mono border border-slate-700">CANCEL</button>
-                <button id="modal-btn-submit" onclick="submitAuthModal()" class="px-6 py-2 btn-cyber text-xs font-bold rounded mono">VERIFY</button>
+    <!-- RUANG RAHASIA (PENONTON YOUTUBE) -->
+    <div id="secret-vault">
+        <div class="flex justify-between items-center mb-6 max-w-4xl mx-auto w-full">
+            <div class="font-mono text-cyber-400 text-sm flex items-center gap-2">
+                <i class="fas fa-lock-open"></i> VAULT DECRYPTED
+            </div>
+            <button onclick="closeVault()" class="w-10 h-10 flex items-center justify-center rounded bg-black/50 border border-cyber-500/30 hover:bg-cyber-500/20 hover:border-cyber-400 text-slate-400 hover:text-cyber-400 transition active:scale-90">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="media-container"></div>
+    </div>
+
+    <!-- CUSTOM ALERT MODAL (Untuk Error) -->
+    <div id="custom-alert" class="cyber-modal-overlay">
+        <div class="cyber-modal glass-panel p-6 rounded-xl border border-red-500/30 shadow-[0_0_40px_rgba(239,68,68,0.15)] relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-red-600 via-orange-500 to-red-600"></div>
+            <div class="flex items-center gap-3 mb-4 text-red-500">
+                <i class="fas fa-exclamation-triangle text-xl animate-pulse"></i>
+                <h3 class="font-mono font-bold tracking-widest text-sm md:text-base">SYSTEM ALERT</h3>
+            </div>
+            <p id="alert-msg" class="text-xs md:text-sm text-slate-300 font-mono leading-relaxed mb-6"></p>
+            <button onclick="closeAlert()" class="w-full py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/50 text-red-400 rounded font-mono font-bold transition-all active:scale-95 text-xs">ACKNOWLEDGE</button>
+        </div>
+    </div>
+
+    <!-- CUSTOM PROMPT MODAL (DINAMIS: Untuk fake download & trigger rahasia) -->
+    <div id="custom-prompt" class="cyber-modal-overlay">
+        <div class="cyber-modal glass-panel p-6 rounded-xl border border-cyber-500/30 shadow-[0_0_40px_rgba(245,158,11,0.15)] relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-cyber-400 via-cyber-600 to-cyber-400"></div>
+            <div class="flex items-center gap-3 mb-4 text-cyber-400">
+                <i id="prompt-icon" class="fas fa-terminal text-xl"></i>
+                <h3 id="prompt-title" class="font-mono font-bold tracking-widest text-sm md:text-base">TERMINAL ACCESS</h3>
+            </div>
+            <p id="prompt-desc" class="text-xs text-slate-400 font-mono mb-3">Enter decryption key:</p>
+            <input type="password" id="prompt-input" class="cyber-input mb-6 text-sm" autocomplete="off" placeholder="••••••••">
+            <div class="flex gap-3">
+                <button onclick="closePrompt(false)" class="flex-1 py-3 bg-black/50 hover:bg-white/5 border border-slate-700 text-slate-400 rounded font-mono font-bold transition-all active:scale-95 text-xs">CANCEL</button>
+                <button id="prompt-submit-btn" onclick="closePrompt(true)" class="flex-1 py-3 btn-cyber rounded font-mono font-bold transition-all active:scale-95 text-xs">AUTHORIZE</button>
             </div>
         </div>
     </div>
 
-    <!-- RUANG RAHASIA (PENAMPIL MEDIA) -->
-    <div id="secret-vault">
-        <button onclick="closeVault()" class="fixed top-4 right-4 md:top-6 md:right-8 w-10 h-10 rounded bg-black/50 border border-cyber-500/30 hover:border-cyber-400 text-cyber-400 flex items-center justify-center z-[1000]"><i class="fas fa-times"></i></button>
-        <div class="max-w-4xl mx-auto text-center mt-10">
-            <h2 class="text-cyber-400 font-bold tracking-widest mb-6 mono glitch" data-text="SYSTEM DECRYPTED">SYSTEM DECRYPTED</h2>
-            <div id="media-container" class="rounded-xl overflow-hidden border border-cyber-500/30 shadow-[0_0_40px_rgba(245,158,11,0.2)]"></div>
-        </div>
-    </div>
-
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // ==========================================
-        // DATA ASET KAMUFLASE
-        // ==========================================
+        // Daftar Aset Dummy untuk Kamuflase
         const ASSETS = [
-            { nama: "Cinematic LUT Pack v2", icon: "fas fa-film", deskripsi: "15 color grading presets for Premiere Pro & DaVinci Resolve.", tag: "LUTs", size: "24 MB" },
-            { nama: "Glitch Transitions", icon: "fas fa-bolt", deskripsi: "Drag-and-drop seamless glitch transitions for your next vlog.", tag: "SFX", size: "112 MB" },
-            { nama: "Lo-Fi Backgrounds", icon: "fas fa-music", deskripsi: "No-copyright background music tracks for safe monetization.", tag: "Audio", size: "58 MB" },
-            { nama: "Title Animations", icon: "fas fa-font", deskripsi: "Modern kinetic typography templates for After Effects.", tag: "Template", size: "15 MB" }
+            { nama: "Cinematic LUT Pack", format: ".cube", icon: "fas fa-film", deskripsi: "15 color grading presets for Premiere Pro & DaVinci Resolve.", size: "24 MB" },
+            { nama: "Glitch Transitions", format: ".prproj", icon: "fas fa-bolt", deskripsi: "Drag-and-drop seamless glitch transitions for your next vlog.", size: "112 MB" },
+            { nama: "Lo-Fi Backgrounds", format: ".mp3", icon: "fas fa-music", deskripsi: "No-copyright background music tracks for safe monetization.", size: "45 MB" },
+            { nama: "Cyber UI Elements", format: ".psd", icon: "fas fa-layer-group", deskripsi: "Futuristic HUD and UI elements for gaming videos.", size: "89 MB" },
+            { nama: "Film Grain Overlay", format: ".mp4", icon: "fas fa-video", deskripsi: "Real 35mm film grain scans with dirt and scratches. (4K)", size: "450 MB" },
+            { nama: "Modern Typography", format: ".otf", icon: "fas fa-font", deskripsi: "A pack of 5 minimalist fonts perfect for thumbnails.", size: "2 MB" },
+            { nama: "8-Bit SFX Bundle", format: ".wav", icon: "fas fa-volume-up", deskripsi: "Retro sound effects pack for gaming intros and memes.", size: "15 MB" },
+            { nama: "Social Templates", format: ".aep", icon: "fas fa-photo-video", deskripsi: "After Effects templates for IG Reels and TikToks.", size: "210 MB" }
         ];
 
-        const BIO_TEXT = "Download free LUTs, transitions, and overlays. As a thank you to my subscribers, all assets here are 100% free to use in your projects.";
-
-        function initApp() {
-            // Efek ngetik di deskripsi
-            const bioEl = document.getElementById('profile-bio');
-            let i = 0;
-            function typeWriter() {
-                if (i < BIO_TEXT.length) {
-                    bioEl.innerHTML = BIO_TEXT.substring(0, i + 1) + '<span class="cursor-blink bg-cyber-400 text-black ml-1 px-[3px]">_</span>';
-                    i++;
-                    setTimeout(typeWriter, 35);
-                } else {
-                    bioEl.innerHTML = BIO_TEXT + '<span class="cursor-blink text-cyber-400 ml-1">_</span>';
-                }
-            }
-            setTimeout(typeWriter, 800);
-
-            renderAssets();
-            initParticles();
-        }
-
-        // ==========================================
-        // RENDER KARTU ASET (STYLE ASLI MILIKMU)
-        // ==========================================
         function renderAssets() {
             const container = document.getElementById('assets-container');
             let html = '';
             
             ASSETS.forEach((item, index) => {
-                const delay = 300 + (index * 100); 
+                const delay = 300 + (index * 50); 
                 html += `
                     <div class="opacity-0 translate-y-10" style="animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms forwards;">
                         <div class="cyber-card relative group rounded-xl p-[1px] h-full flex flex-col transform-gpu transition-transform duration-200" onpointerdown="this.style.transform='scale(0.98)'" onpointerup="this.style.transform='scale(1)'">
@@ -286,21 +252,20 @@
                             </div>
                             
                             <div class="card-inner relative z-10 bg-[#07070a] rounded-[11px] p-4 md:p-5 flex flex-col h-full group-hover:bg-[#0a0a0f] transition-colors border border-white/5">
-                                <div class="flex items-start gap-4 mb-3 md:mb-4">
-                                    <div class="w-12 h-12 shrink-0 rounded bg-black border border-cyber-500/20 text-cyber-500/70 flex justify-center items-center text-xl transition-all duration-300 group-hover:bg-cyber-400 group-hover:text-black group-hover:border-cyber-400 group-hover:shadow-[0_0_15px_#facc15]">
+                                <div class="flex items-start gap-4 mb-3">
+                                    <div class="w-12 h-12 shrink-0 rounded bg-black border border-cyber-500/20 text-cyber-500/70 flex justify-center items-center text-xl transition-all duration-300 group-hover:bg-cyber-400 group-hover:text-black group-hover:shadow-[0_0_15px_#facc15]">
                                         <i class="${item.icon}"></i>
                                     </div>
                                     <div class="flex-1 min-w-0 pt-1">
-                                        <h3 class="text-white font-extrabold text-sm md:text-base tracking-wide truncate group-hover:text-cyber-400 transition-colors">${item.nama}</h3>
-                                        <span class="inline-block mt-0.5 text-[9px] uppercase font-bold tracking-widest bg-black border border-cyber-500/30 text-cyber-400 px-1.5 py-[2px] rounded shadow-sm">${item.tag} • ${item.size}</span>
+                                        <h3 class="text-white font-bold text-sm tracking-wide truncate group-hover:text-cyber-400">${item.nama}</h3>
+                                        <span class="inline-block mt-1 text-[9px] uppercase font-mono bg-black border border-cyber-500/30 text-cyber-400 px-1.5 py-[2px] rounded">${item.format} • ${item.size}</span>
                                     </div>
                                 </div>
-                                <p class="text-slate-400 text-[10px] md:text-xs leading-relaxed font-mono flex-1 mb-4 group-hover:text-slate-300 line-clamp-3">${item.deskripsi}</p>
+                                <p class="text-slate-400 text-[10px] md:text-xs leading-relaxed font-mono flex-1 mb-5 group-hover:text-slate-300">${item.deskripsi}</p>
                                 
-                                <!-- TOMBOL DOWNLOAD FAKE -->
                                 <div class="mt-auto">
-                                    <button onclick="openAuthModal('fake', 'Enter License for ${item.nama}')" class="w-full py-2.5 md:py-3 bg-black border border-cyber-500/30 hover:border-cyber-400 text-cyber-400 font-extrabold rounded text-[10px] md:text-xs transition-all flex items-center justify-center gap-2 group/btn">
-                                        DOWNLOAD (.zip) <i class="fas fa-download opacity-80 group-hover/btn:translate-y-1 transition-transform"></i>
+                                    <button onclick="fakeDownloadPrompt('${item.nama}')" class="w-full py-2.5 btn-cyber font-bold rounded text-[11px] transition-all flex items-center justify-center gap-2 group/btn">
+                                        DOWNLOAD <i class="fas fa-download opacity-80 group-hover/btn:translate-y-1 transition-transform"></i>
                                     </button>
                                 </div>
                             </div>
@@ -308,130 +273,175 @@
                     </div>
                 `;
             });
-
             container.innerHTML = html;
-            setTimeout(initTiltEffect, 500); 
         }
 
-        // Efek 3D Card
-        function initTiltEffect() {
-            const cards = document.querySelectorAll('.cyber-card');
-            cards.forEach(card => {
-                const inner = card.querySelector('.card-inner');
-                card.addEventListener('pointermove', e => {
-                    if(window.innerWidth < 768) return; 
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    const rotateX = ((y - centerY) / centerY) * -8; 
-                    const rotateY = ((x - centerX) / centerX) * 8;
-                    inner.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-                });
-                card.addEventListener('pointerleave', () => {
-                    inner.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-                });
-            });
+        function initParticles() {
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height, particles = [];
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width; this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.4; this.vy = (Math.random() - 0.5) * 0.4;
+                    this.size = Math.random() * 1.5 + 0.5;
+                }
+                update() {
+                    this.x += this.vx; this.y += this.vy;
+                    if (this.x < 0 || this.x > width) this.vx *= -1;
+                    if (this.y < 0 || this.y > height) this.vy *= -1;
+                }
+                draw() {
+                    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(245, 158, 11, 0.3)'; ctx.fill();
+                }
+            }
+
+            const count = width > 768 ? 40 : 20;
+            for (let i = 0; i < count; i++) particles.push(new Particle());
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update(); particles[i].draw();
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
         }
 
-        // ==========================================
-        // SISTEM MODAL & TRIGGER RAHASIA
-        // ==========================================
-        let modalMode = 'fake'; 
-        let avatarClicks = 0;
-        let clickTimer;
+        // --- LOGIKA CUSTOM MODALS ---
+        function showCustomAlert(message) {
+            document.getElementById('alert-msg').innerText = message;
+            document.getElementById('custom-alert').classList.add('active');
+        }
+
+        function closeAlert() {
+            document.getElementById('custom-alert').classList.remove('active');
+        }
+
+        let promptCallback = null;
         
-        const modalEl = document.getElementById('auth-modal');
-        const modalContent = document.getElementById('auth-content');
-        const modalInput = document.getElementById('modal-input');
-        const modalError = document.getElementById('modal-error');
-        const modalActions = document.getElementById('modal-actions');
-        const modalTitle = document.getElementById('modal-title');
-        const btnSubmit = document.getElementById('modal-btn-submit');
-
-        // TRIGGER RAHASIA: KLIK AVATAR 5X
-        document.getElementById('avatar-trigger').addEventListener('click', () => {
-            avatarClicks++;
-            clearTimeout(clickTimer);
-            if (avatarClicks >= 5) {
-                avatarClicks = 0;
-                openAuthModal('real', 'System Override - Enter Access Key:');
-            } else {
-                clickTimer = setTimeout(() => { avatarClicks = 0; }, 600);
-            }
-        });
-
-        function openAuthModal(mode, title) {
-            modalMode = mode;
-            modalTitle.innerText = title;
-            modalTitle.className = "text-sm font-bold text-white mb-4 tracking-widest uppercase mono";
+        // Fungsi prompt dinamis: Bisa diubah isi teks dan ikonnya sesuai kebutuhan
+        function showCustomPrompt(title, desc, buttonText, iconClass, callback) {
+            promptCallback = callback;
             
-            modalInput.style.display = 'block';
-            modalInput.value = '';
-            modalError.classList.add('hidden');
-            modalActions.style.display = 'flex';
-            btnSubmit.style.display = 'block';
+            document.getElementById('prompt-title').innerText = title;
+            document.getElementById('prompt-desc').innerText = desc;
+            document.getElementById('prompt-submit-btn').innerText = buttonText;
+            document.getElementById('prompt-icon').className = iconClass + " text-xl";
 
-            modalEl.classList.add('active');
-            setTimeout(() => {
-                modalContent.classList.replace('scale-95', 'scale-100');
-                modalInput.focus();
-            }, 10);
+            const promptModal = document.getElementById('custom-prompt');
+            const inputField = document.getElementById('prompt-input');
+            inputField.value = '';
+            promptModal.classList.add('active');
+            
+            // Fokus otomatis ke input text
+            setTimeout(() => inputField.focus(), 100);
+            
+            // Dukungan tekan "Enter" di keyboard HP/Laptop
+            inputField.onkeydown = function(e) {
+                if (e.key === 'Enter') closePrompt(true);
+            };
         }
 
-        function closeAuthModal() {
-            modalContent.classList.replace('scale-100', 'scale-95');
-            setTimeout(() => modalEl.classList.remove('active'), 300);
+        function closePrompt(isSubmit) {
+            const promptModal = document.getElementById('custom-prompt');
+            const inputField = document.getElementById('prompt-input');
+            promptModal.classList.remove('active');
+            
+            if (isSubmit && inputField.value && promptCallback) {
+                promptCallback(inputField.value);
+            }
+            promptCallback = null;
         }
 
-        // Enter key support
-        modalInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') submitAuthModal();
+        // Fungsi Download Palsu (Dipanggil saat admin shortlink menekan "DOWNLOAD")
+        function fakeDownloadPrompt(assetName) {
+            showCustomPrompt(
+                "LICENSE VERIFICATION", 
+                `Enter License Key for ${assetName}:`, 
+                "VERIFY", 
+                "fas fa-key", 
+                (key) => {
+                    // Beri jeda kecil agar terkesan sedang memproses key, lalu munculkan error palsu
+                    setTimeout(() => {
+                        showCustomAlert("Bandwidth limit exceeded for today due to high YouTube traffic.\nPlease try downloading again in 24 hours.");
+                    }, 400);
+                }
+            );
+        }
+
+        // ==========================================
+        // LOGIKA RAHASIA (DEKRIPSI & TRIGGER)
+        // ==========================================
+        
+        // 1. Ambil parameter kunci dari URL (Contoh: ?key=tutorial-bali)
+        const urlParams = new URLSearchParams(window.location.search);
+        const hiddenKey = urlParams.get('key'); 
+
+        let clickCount = 0;
+        let clickTimer;
+
+        // 2. Trigger Rahasia (Klik "sys.aura_assets" 5x)
+        document.getElementById('logo').addEventListener('click', (e) => {
+            clickCount++;
+            clearTimeout(clickTimer);
+            
+            if (clickCount >= 5) {
+                clickCount = 0;
+                if (hiddenKey) {
+                    processVaultAccess(hiddenKey);
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                } else {
+                    // Panggil pop-up dengan judul Terminal Access
+                    showCustomPrompt(
+                        "TERMINAL ACCESS", 
+                        "Enter decryption key:", 
+                        "AUTHORIZE", 
+                        "fas fa-terminal",
+                        (pwd) => {
+                            processVaultAccess(pwd);
+                        }
+                    );
+                }
+            } else {
+                clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
+            }
         });
 
-        function submitAuthModal() {
-            const pwd = modalInput.value.trim();
-            if(!pwd) return;
-
-            if (modalMode === 'fake') {
-                modalInput.style.display = 'none';
-                modalTitle.innerText = "Verifying License...";
-                modalTitle.className = "text-sm font-bold text-cyber-400 mb-4 tracking-widest uppercase mono animate-pulse";
-                btnSubmit.style.display = 'none';
-
-                setTimeout(() => {
-                    modalTitle.innerText = "SYSTEM ALERT";
-                    modalTitle.className = "text-sm font-bold text-red-500 mb-2 tracking-widest uppercase mono";
-                    modalError.innerHTML = "Bandwidth limit exceeded for today due to high YouTube traffic.<br><br>Please try downloading again in 24 hours.";
-                    modalError.classList.remove('hidden');
-                }, 1200);
-            } else {
-                closeAuthModal();
-                processVaultAccess(pwd);
-            }
-        }
-
-        // ==========================================
-        // DEKRIPSI WEB CRYPTO API
-        // ==========================================
+        // 3. Web Crypto API Decryption
         async function processVaultAccess(password) {
             try {
                 const encoder = new TextEncoder();
                 const pwdBytes = encoder.encode(password);
+
                 const hashBuffer = await crypto.subtle.digest('SHA-256', pwdBytes);
                 const hashArray = Array.from(new Uint8Array(hashBuffer));
                 const fileNameHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
                 const response = await fetch(`${fileNameHash}.enc`);
-                if (!response.ok) throw new Error("File not found");
-                
+                if (!response.ok) throw new Error("File not found.");
                 const encryptedData = await response.arrayBuffer();
-                const key = await crypto.subtle.importKey('raw', hashBuffer, { name: 'AES-GCM' }, false, ['decrypt']);
+
+                const key = await crypto.subtle.importKey(
+                    'raw', hashBuffer, { name: 'AES-GCM' }, false, ['decrypt']
+                );
 
                 const iv = encryptedData.slice(0, 12);
                 const data = encryptedData.slice(12);
-                const decryptedBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: new Uint8Array(iv) }, key, data);
+
+                const decryptedBuffer = await crypto.subtle.decrypt(
+                    { name: 'AES-GCM', iv: new Uint8Array(iv) }, key, data
+                );
                 
                 const decArray = new Uint8Array(decryptedBuffer);
                 const extLen = decArray[0];
@@ -448,87 +458,35 @@
 
                 const container = document.getElementById('media-container');
                 if (mimeType.startsWith('video/')) {
-                    container.innerHTML = `<video src="${mediaUrl}" controls autoplay controlsList="nodownload" class="w-full"></video>`;
+                    container.innerHTML = `<video src="${mediaUrl}" controls autoplay controlsList="nodownload"></video>`;
                 } else {
-                    container.innerHTML = `<img src="${mediaUrl}" alt="Decrypted Data" class="w-full">`;
+                    container.innerHTML = `<img src="${mediaUrl}" alt="Decrypted File">`;
                 }
 
-                document.body.style.overflow = 'hidden';
-                document.getElementById('secret-vault').style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Kunci scroll belakang
+                document.getElementById('secret-vault').classList.add('active');
 
             } catch (error) {
-                openAuthModal('fake', 'Error 404:');
-                modalInput.style.display = 'none';
-                btnSubmit.style.display = 'none';
-                modalError.innerHTML = "Access Denied. Invalid token or corrupted data.";
-                modalError.classList.remove('hidden');
+                console.error(error);
+                // Ganti alert bawaan dengan custom alert merah
+                showCustomAlert("ERR 403: Invalid Key or Corrupted File.");
             }
         }
 
         function closeVault() {
-            document.getElementById('secret-vault').style.display = 'none';
-            document.getElementById('media-container').innerHTML = ''; 
-            document.body.style.overflow = 'auto';
+            document.getElementById('secret-vault').classList.remove('active');
+            // Hapus isi video/gambar agar suara mati dan memori bersih
+            setTimeout(() => {
+                document.getElementById('media-container').innerHTML = ''; 
+                document.body.style.overflow = 'auto';
+            }, 500);
         }
 
-        // ==========================================
-        // BACKGROUND PARTICLES (ASLI)
-        // ==========================================
-        function initParticles() {
-            const canvas = document.getElementById('bg-canvas');
-            const ctx = canvas.getContext('2d');
-            let width, height, particles = [];
-
-            function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-            window.addEventListener('resize', resize); resize();
-
-            let mouse = { x: -1000, y: -1000 };
-            window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-            window.addEventListener('touchmove', e => { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }, {passive: true});
-
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * width; this.y = Math.random() * height;
-                    this.vx = (Math.random() - 0.5) * 0.4; this.vy = (Math.random() - 0.5) * 0.4;
-                    this.size = Math.random() * 1.5 + 0.5;
-                }
-                update() {
-                    this.x += this.vx; this.y += this.vy;
-                    if (this.x < 0 || this.x > width) this.vx *= -1;
-                    if (this.y < 0 || this.y > height) this.vy *= -1;
-                    let dx = mouse.x - this.x; let dy = mouse.y - this.y;
-                    let distance = Math.sqrt(dx*dx + dy*dy);
-                    if (distance < 120) { this.x -= dx * 0.01; this.y -= dy * 0.01; }
-                }
-                draw() {
-                    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(245, 158, 11, 0.4)'; ctx.fill();
-                }
-            }
-
-            const count = width > 768 ? 50 : 25;
-            for (let i = 0; i < count; i++) particles.push(new Particle());
-
-            function animate() {
-                ctx.clearRect(0, 0, width, height);
-                for (let i = 0; i < particles.length; i++) {
-                    particles[i].update(); particles[i].draw();
-                    for (let j = i + 1; j < particles.length; j++) {
-                        let dx = particles[i].x - particles[j].x; let dy = particles[i].y - particles[j].y;
-                        let dist = Math.sqrt(dx*dx + dy*dy);
-                        if (dist < 100) {
-                            ctx.beginPath(); ctx.strokeStyle = `rgba(245, 158, 11, ${0.15 - dist/666})`;
-                            ctx.lineWidth = 0.5; ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
-                        }
-                    }
-                }
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
-
-        document.addEventListener('DOMContentLoaded', initApp);
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAssets();
+            initParticles();
+        });
     </script>
 </body>
 </html>
