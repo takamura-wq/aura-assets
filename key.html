@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA ASSETS | Token Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: #050508;
+            color: #e2e8f0;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
+        }
+
+        .generator-box {
+            background: linear-gradient(145deg, rgba(15, 15, 18, 0.8), rgba(5, 5, 8, 0.95));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.9);
+            padding: 40px 30px;
+            border-radius: 12px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 16px;
+            color: #94a3b8;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .token-display {
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 1px dashed rgba(245, 158, 11, 0.5);
+            color: #facc15;
+            font-size: 24px;
+            font-weight: 800;
+            padding: 20px;
+            border-radius: 8px;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            word-break: break-all;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #d97706 0%, #facc15 100%);
+            color: #000;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 15px;
+        }
+
+        .btn-copy:active {
+            transform: scale(0.97);
+        }
+
+        .btn-main {
+            background: transparent;
+            color: #94a3b8;
+            border: 1px solid #334155;
+            padding: 12px;
+            width: 100%;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            box-sizing: border-box;
+            transition: all 0.2s;
+        }
+
+        .btn-main:hover {
+            border-color: #facc15;
+            color: #facc15;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            background: #facc15;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="generator-box">
+        <h1>Asset Access Token</h1>
+        
+        <!-- Di sinilah kunci rahasia akan muncul -->
+        <div class="token-display" id="tokenText">GENERATING...</div>
+        
+        <button class="btn-copy" onclick="copyToken()">COPY TOKEN</button>
+        
+        <!-- Tombol ini mengarah kembali ke web utamamu -->
+        <a href="index.html" class="btn-main">GO TO ASSET VAULT</a>
+    </div>
+
+    <div class="toast" id="toastBox">Token Copied!</div>
+
+    <script>
+        // Mengambil kode sandi dari URL (?code=RAHASIA)
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('code');
+        const tokenDisplay = document.getElementById('tokenText');
+
+        if (token) {
+            tokenDisplay.innerText = token;
+        } else {
+            tokenDisplay.innerText = "INVALID LINK";
+            tokenDisplay.style.color = "#ef4444";
+            tokenDisplay.style.borderColor = "#ef4444";
+        }
+
+        function copyToken() {
+            if (!token) return;
+            
+            // Menyalin teks ke clipboard HP/PC
+            navigator.clipboard.writeText(token).then(() => {
+                const toast = document.getElementById('toastBox');
+                toast.style.opacity = '1';
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
