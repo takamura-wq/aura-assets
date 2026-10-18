@@ -4,148 +4,253 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AURA ASSETS | Token Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { cyber: { 400: '#facc15', 500: '#f59e0b', 600: '#d97706' } },
+                    animation: { 
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'scan': 'scan 2s linear infinite'
+                    },
+                    keyframes: {
+                        scan: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        body {
-            font-family: 'JetBrains Mono', monospace;
-            background-color: #050508;
-            color: #e2e8f0;
+        body { 
+            font-family: 'JetBrains Mono', monospace; 
+            background-color: #020203; 
+            color: #e2e8f0; 
+            min-height: 100vh; 
             margin: 0;
-            height: 100vh;
+            overflow: hidden;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
+            flex-direction: column;
         }
 
-        .generator-box {
-            background: linear-gradient(145deg, rgba(15, 15, 18, 0.8), rgba(5, 5, 8, 0.95));
+        /* Animated Grid Background */
+        .bg-grid {
+            position: absolute;
+            inset: 0;
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(245, 158, 11, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(245, 158, 11, 0.03) 1px, transparent 1px);
+            z-index: 0;
+            mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+        }
+
+        /* Glassmorphism Card with Sci-Fi Borders */
+        .cyber-card {
+            background: linear-gradient(145deg, rgba(15, 15, 18, 0.85), rgba(5, 5, 8, 0.95));
             backdrop-filter: blur(20px);
             border: 1px solid rgba(245, 158, 11, 0.2);
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.9);
-            padding: 40px 30px;
-            border-radius: 12px;
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
+            box-shadow: 0 0 40px -10px rgba(245, 158, 11, 0.15);
+            position: relative;
         }
-
-        h1 {
-            font-size: 16px;
-            color: #94a3b8;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
-            text-transform: uppercase;
+        
+        /* Corner Decorations */
+        .cyber-card::before, .cyber-card::after,
+        .cyber-card-inner::before, .cyber-card-inner::after {
+            content: ''; position: absolute; width: 10px; height: 10px; border-color: rgba(245, 158, 11, 0.8); border-style: solid;
         }
+        .cyber-card::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+        .cyber-card::after { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+        .cyber-card-inner::before { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+        .cyber-card-inner::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
 
+        /* Glowing Token Box */
         .token-display {
-            background-color: rgba(0, 0, 0, 0.6);
-            border: 1px dashed rgba(245, 158, 11, 0.5);
-            color: #facc15;
-            font-size: 24px;
-            font-weight: 800;
-            padding: 20px;
-            border-radius: 8px;
-            letter-spacing: 3px;
-            margin-bottom: 20px;
-            word-break: break-all;
+            background: rgba(0, 0, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+        .token-display.valid { border: 1px dashed rgba(245, 158, 11, 0.6); color: #facc15; text-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
+        .token-display.invalid { border: 1px dashed rgba(239, 68, 68, 0.6); color: #ef4444; text-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+        
+        /* Scanline effect inside the token box */
+        .scanline {
+            position: absolute; left: 0; right: 0; height: 10px;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
+            z-index: 10; pointer-events: none; opacity: 0.5;
         }
 
-        .btn-copy {
-            background: linear-gradient(135deg, #d97706 0%, #facc15 100%);
-            color: #000;
-            border: none;
-            padding: 15px;
-            width: 100%;
-            border-radius: 6px;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 800;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 15px;
-        }
+        /* Buttons */
+        .btn-cyber { background: linear-gradient(135deg, #d97706 0%, #facc15 100%); color: #000; transition: all 0.2s; }
+        .btn-cyber:hover { box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
+        .btn-cyber:active { transform: translateY(2px) scale(0.98); }
+        
+        .btn-outline { background: transparent; transition: all 0.2s; }
+        .btn-outline:hover { background: rgba(245, 158, 11, 0.1); border-color: #facc15; color: #facc15; }
 
-        .btn-copy:active {
-            transform: scale(0.97);
-        }
-
-        .btn-main {
-            background: transparent;
-            color: #94a3b8;
-            border: 1px solid #334155;
-            padding: 12px;
-            width: 100%;
-            border-radius: 6px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            box-sizing: border-box;
-            transition: all 0.2s;
-        }
-
-        .btn-main:hover {
-            border-color: #facc15;
-            color: #facc15;
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            background: #facc15;
-            color: #000;
-            padding: 10px 20px;
-            border-radius: 4px;
-            font-weight: bold;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
+        /* Toast Animation */
+        .toast-enter { transform: translateY(100px); opacity: 0; }
+        .toast-active { transform: translateY(0); opacity: 1; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     </style>
 </head>
-<body>
+<body class="relative flex items-center justify-center p-4">
 
-    <div class="generator-box">
-        <h1>Asset Access Token</h1>
-        
-        <!-- Di sinilah kunci rahasia akan muncul -->
-        <div class="token-display" id="tokenText">GENERATING...</div>
-        
-        <button class="btn-copy" onclick="copyToken()">COPY TOKEN</button>
-        
-        <!-- Tombol ini mengarah kembali ke web utamamu -->
-        <a href="index.html" class="btn-main">GO TO ASSET VAULT</a>
+    <div class="bg-grid"></div>
+    
+    <!-- Top System Decor -->
+    <div class="absolute top-6 left-6 z-10 hidden md:flex flex-col gap-1">
+        <div class="flex items-center gap-2 text-xs text-cyber-500/70">
+            <div class="w-2 h-2 rounded-full bg-cyber-500 animate-pulse-fast"></div>
+            SYS.SECURE_LINK.ACTIVE
+        </div>
+        <div class="text-[10px] text-slate-600 font-mono">NODE: AP-SOUTHEAST-1</div>
     </div>
 
-    <div class="toast" id="toastBox">Token Copied!</div>
+    <main class="w-full max-w-[420px] cyber-card rounded-lg p-6 md:p-8 z-10 animate-fade-up">
+        <div class="cyber-card-inner absolute inset-0 pointer-events-none rounded-lg"></div>
+        
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyber-500/10 border border-cyber-500/30 mb-4 text-cyber-400">
+                <i class="fas fa-fingerprint text-xl"></i>
+            </div>
+            <h1 class="text-sm font-bold text-slate-300 tracking-[0.2em] uppercase">Asset Access Token</h1>
+            <p class="text-[10px] text-slate-500 mt-2 font-mono">DECRYPTING PAYLOAD...</p>
+        </div>
+        
+        <!-- Token Box -->
+        <div id="tokenContainer" class="token-display valid p-4 rounded-md text-center text-xl md:text-2xl font-black tracking-widest mb-6 min-h-[70px] flex items-center justify-center break-all relative">
+            <div class="scanline animate-scan"></div>
+            <span id="tokenText" class="relative z-20">WAIT...</span>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex flex-col gap-3">
+            <button id="copyBtn" onclick="copyToken()" class="btn-cyber w-full py-3.5 rounded text-sm font-bold tracking-wide flex items-center justify-center gap-2 pointer-events-none opacity-50">
+                <i class="fas fa-copy"></i> COPY TOKEN
+            </button>
+            
+            <a href="index.html" class="btn-outline w-full py-3 rounded text-xs font-bold text-slate-400 border border-slate-700 flex items-center justify-center gap-2">
+                <i class="fas fa-arrow-left"></i> RETURN TO VAULT
+            </a>
+        </div>
+    </main>
+
+    <!-- Bottom Decor -->
+    <div class="absolute bottom-6 text-[10px] text-slate-600 font-mono tracking-widest z-10">
+        AURA_ASSETS_V2 // ENCRYPTED
+    </div>
+
+    <!-- Custom Toast Notification -->
+    <div id="toastBox" class="fixed bottom-10 z-50 bg-cyber-400 text-black px-6 py-3 rounded shadow-[0_5px_20px_rgba(245,158,11,0.4)] font-bold text-sm flex items-center gap-3 toast-enter">
+        <i class="fas fa-check-circle"></i> Token copied to clipboard!
+    </div>
 
     <script>
-        // Mengambil kode sandi dari URL (?code=RAHASIA)
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('code');
         const tokenDisplay = document.getElementById('tokenText');
+        const tokenContainer = document.getElementById('tokenContainer');
+        const copyBtn = document.getElementById('copyBtn');
 
-        if (token) {
-            tokenDisplay.innerText = token;
-        } else {
-            tokenDisplay.innerText = "INVALID LINK";
-            tokenDisplay.style.color = "#ef4444";
-            tokenDisplay.style.borderColor = "#ef4444";
+        // Hacker text scramble effect
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*';
+        
+        function decryptEffect(targetText, isError = false) {
+            let iterations = 0;
+            const maxIterations = 20;
+            const interval = setInterval(() => {
+                tokenDisplay.innerText = targetText.split('').map((char, index) => {
+                    if (index < iterations) return char;
+                    return chars[Math.floor(Math.random() * chars.length)];
+                }).join('');
+                
+                iterations += 1/2; // Speed of decryption
+                
+                if (iterations >= targetText.length) {
+                    clearInterval(interval);
+                    tokenDisplay.innerText = targetText;
+                    
+                    // Style adjustments after "decryption" finishes
+                    if (isError) {
+                        tokenContainer.classList.remove('valid');
+                        tokenContainer.classList.add('invalid');
+                        document.querySelector('.fa-fingerprint').classList.replace('fa-fingerprint', 'fa-triangle-exclamation');
+                        document.querySelector('.fa-triangle-exclamation').parentElement.classList.replace('text-cyber-400', 'text-red-500');
+                        document.querySelector('.fa-triangle-exclamation').parentElement.classList.replace('bg-cyber-500/10', 'bg-red-500/10');
+                        document.querySelector('.fa-triangle-exclamation').parentElement.classList.replace('border-cyber-500/30', 'border-red-500/30');
+                        copyBtn.innerHTML = '<i class="fas fa-ban"></i> ACCESS DENIED';
+                    } else {
+                        copyBtn.classList.remove('pointer-events-none', 'opacity-50');
+                    }
+                }
+            }, 30);
         }
 
+        // Initialize on load
+        window.onload = () => {
+            setTimeout(() => {
+                if (token) {
+                    decryptEffect(token);
+                } else {
+                    decryptEffect("INVALID LINK", true);
+                }
+            }, 500); // Slight delay for dramatic effect
+        };
+
+        // Copy logic with modern UI toast
         function copyToken() {
             if (!token) return;
             
-            // Menyalin teks ke clipboard HP/PC
-            navigator.clipboard.writeText(token).then(() => {
-                const toast = document.getElementById('toastBox');
-                toast.style.opacity = '1';
-                setTimeout(() => {
-                    toast.style.opacity = '0';
-                }, 2000);
-            });
+            // Try modern clipboard API first
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(token).then(showToast).catch(fallbackCopy);
+            } else {
+                fallbackCopy();
+            }
+        }
+        
+        // Fallback for older browsers / webviews
+        function fallbackCopy() {
+            const textArea = document.createElement("textarea");
+            textArea.value = token;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast();
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toastBox');
+            toast.classList.remove('toast-enter');
+            toast.classList.add('toast-active');
+            
+            // Change button temporarily
+            const originalBtn = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<i class="fas fa-check"></i> COPIED!';
+            
+            setTimeout(() => {
+                toast.classList.remove('toast-active');
+                toast.classList.add('toast-enter');
+                copyBtn.innerHTML = originalBtn;
+            }, 2500);
         }
     </script>
 </body>
