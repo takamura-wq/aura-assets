@@ -108,7 +108,10 @@
         const ASSETS = [
             { nama: "Cinematic LUT Pack", format: ".cube", icon: "fas fa-film", deskripsi: "15 color grading presets for Premiere Pro & DaVinci Resolve." },
             { nama: "Glitch Transitions", format: ".prproj", icon: "fas fa-bolt", deskripsi: "Drag-and-drop seamless glitch transitions for your next vlog." },
-            { nama: "Film Grain Overlay", format: ".mp4", icon: "fas fa-video", deskripsi: "Real 35mm film grain scans with dirt and scratches." }
+            { nama: "Film Grain Overlay", format: ".mp4", icon: "fas fa-video", deskripsi: "Real 35mm film grain scans with dirt and scratches." },
+            { nama: "Cyberpunk SFX Pack", format: ".wav", icon: "fas fa-music", deskripsi: "50+ high-quality futuristic UI sounds, bass drops, and whooshes." },
+            { nama: "Neon Text Presets", format: ".prfpset", icon: "fas fa-font", deskripsi: "Glowing neon text animations and title reveals for Premiere Pro." },
+            { nama: "Light Leak Overlays", format: ".mov", icon: "fas fa-sun", deskripsi: "Organic 4K light leaks captured beautifully on vintage lenses." }
         ];
 
         document.getElementById('assets-container').innerHTML = ASSETS.map((item, i) => `
@@ -121,7 +124,7 @@
 
         function fakeDownload() {
             showPrompt("LICENSE VERIFICATION", "Enter License Key:", () => {
-                setTimeout(() => showAlert("Bandwidth limit exceeded.\nPlease try downloading again in 24 hours."), 400);
+                setTimeout(() => showAlert("ACTIVATION FAILED.\n\nThe license token you entered has reached its maximum activation limit (10/10). Please obtain a new valid token."), 400);
             });
         }
 
