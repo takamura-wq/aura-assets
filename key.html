@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURA ASSETS | Token Generator</title>
+    <title>Aura Studio | License Key</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -16,16 +16,16 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
-                    colors: { cyber: { 400: '#facc15', 500: '#f59e0b', 600: '#d97706' } },
+                    colors: { cyber: { 400: '#facc15', 500: '#f59e0b', dark: '#030305' } },
                     animation: { 
-                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'scan': 'scan 2s linear infinite'
+                        'fade-up': 'fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'scan': 'scan 2.5s ease-in-out infinite alternate',
+                        'pulse-glow': 'pulseGlow 2s infinite'
                     },
                     keyframes: {
-                        scan: {
-                            '0%': { transform: 'translateY(-100%)' },
-                            '100%': { transform: 'translateY(100%)' }
-                        }
+                        fadeUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        scan: { '0%': { top: '0%' }, '100%': { top: '100%' } },
+                        pulseGlow: { '0%, 100%': { opacity: 1 }, '50%': { opacity: 0.5 } }
                     }
                 }
             }
@@ -33,188 +33,136 @@
     </script>
 
     <style>
-        body { 
-            font-family: 'JetBrains Mono', monospace; 
-            background-color: #020203; 
-            color: #e2e8f0; 
-            min-height: 100vh; 
-            margin: 0;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Animated Grid Background */
-        .bg-grid {
-            position: absolute;
-            inset: 0;
-            background-size: 50px 50px;
-            background-image: 
-                linear-gradient(to right, rgba(245, 158, 11, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(245, 158, 11, 0.03) 1px, transparent 1px);
-            z-index: 0;
-            mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
-            -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
-        }
-
-        /* Glassmorphism Card with Sci-Fi Borders */
-        .cyber-card {
-            background: linear-gradient(145deg, rgba(15, 15, 18, 0.85), rgba(5, 5, 8, 0.95));
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            box-shadow: 0 0 40px -10px rgba(245, 158, 11, 0.15);
-            position: relative;
-        }
+        body { background-color: #030305; color: #e2e8f0; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 0; padding: 20px; }
         
-        /* Corner Decorations */
-        .cyber-card::before, .cyber-card::after,
-        .cyber-card-inner::before, .cyber-card-inner::after {
-            content: ''; position: absolute; width: 10px; height: 10px; border-color: rgba(245, 158, 11, 0.8); border-style: solid;
-        }
-        .cyber-card::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
-        .cyber-card::after { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
-        .cyber-card-inner::before { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
-        .cyber-card-inner::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+        .bg-grid { position: absolute; inset: 0; background-size: 50px 50px; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px); mask-image: radial-gradient(circle at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%); z-index: -1; }
 
-        /* Glowing Token Box */
-        .token-display {
-            background: rgba(0, 0, 0, 0.8);
-            position: relative;
-            overflow: hidden;
-        }
-        .token-display.valid { border: 1px dashed rgba(245, 158, 11, 0.6); color: #facc15; text-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
-        .token-display.invalid { border: 1px dashed rgba(239, 68, 68, 0.6); color: #ef4444; text-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+        .glass-card { background: rgba(10, 10, 14, 0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05); position: relative; }
+
+        /* Token Display Area */
+        .token-display { background: rgba(0, 0, 0, 0.6); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+        .token-display.valid { border-color: rgba(245, 158, 11, 0.3); color: #facc15; box-shadow: inset 0 0 30px rgba(245, 158, 11, 0.05); }
+        .token-display.invalid { border-color: rgba(239, 68, 68, 0.3); color: #ef4444; box-shadow: inset 0 0 30px rgba(239, 68, 68, 0.05); }
         
-        /* Scanline effect inside the token box */
-        .scanline {
-            position: absolute; left: 0; right: 0; height: 10px;
-            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
-            z-index: 10; pointer-events: none; opacity: 0.5;
-        }
+        /* Laser Scanline */
+        .laser { position: absolute; left: 0; right: 0; height: 2px; background: #facc15; box-shadow: 0 0 10px #facc15, 0 0 20px #facc15; z-index: 10; pointer-events: none; opacity: 0; transition: opacity 0.3s, background 0.3s, box-shadow 0.3s; }
+        .token-display.valid .laser { opacity: 0.7; }
+        .token-display.invalid .laser { opacity: 0.7; background: #ef4444; box-shadow: 0 0 10px #ef4444, 0 0 20px #ef4444; }
 
         /* Buttons */
-        .btn-cyber { background: linear-gradient(135deg, #d97706 0%, #facc15 100%); color: #000; transition: all 0.2s; }
-        .btn-cyber:hover { box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
-        .btn-cyber:active { transform: translateY(2px) scale(0.98); }
+        .btn-primary { background: linear-gradient(135deg, #f59e0b, #facc15); color: #000; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2); transition: all 0.3s; }
+        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); filter: brightness(1.1); }
+        .btn-primary:active:not(:disabled) { transform: translateY(1px) scale(0.98); }
+        .btn-primary:disabled { opacity: 0.5; filter: grayscale(1); cursor: not-allowed; }
         
-        .btn-outline { background: transparent; transition: all 0.2s; }
-        .btn-outline:hover { background: rgba(245, 158, 11, 0.1); border-color: #facc15; color: #facc15; }
+        .btn-secondary { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; transition: all 0.3s; }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
 
         /* Toast Animation */
-        .toast-enter { transform: translateY(100px); opacity: 0; }
-        .toast-active { transform: translateY(0); opacity: 1; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: #facc15; color: #000; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 30px rgba(245,158,11,0.3); transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 100; }
+        .toast.show { bottom: 40px; }
     </style>
 </head>
-<body class="relative flex items-center justify-center p-4">
+<body>
 
     <div class="bg-grid"></div>
-    
-    <!-- Top System Decor -->
-    <div class="absolute top-6 left-6 z-10 hidden md:flex flex-col gap-1">
-        <div class="flex items-center gap-2 text-xs text-cyber-500/70">
-            <div class="w-2 h-2 rounded-full bg-cyber-500 animate-pulse-fast"></div>
-            SYS.SECURE_LINK.ACTIVE
-        </div>
-        <div class="text-[10px] text-slate-600 font-mono">NODE: AP-SOUTHEAST-1</div>
-    </div>
 
-    <main class="w-full max-w-[420px] cyber-card rounded-lg p-6 md:p-8 z-10 animate-fade-up">
-        <div class="cyber-card-inner absolute inset-0 pointer-events-none rounded-lg"></div>
+    <main class="w-full max-w-[400px] glass-card rounded-2xl p-8 z-10 animate-fade-up">
         
         <!-- Header -->
         <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyber-500/10 border border-cyber-500/30 mb-4 text-cyber-400">
-                <i class="fas fa-fingerprint text-xl"></i>
+            <div id="icon-box" class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/5 border border-white/10 mb-5 text-white shadow-sm transition-all duration-500">
+                <i class="fas fa-fingerprint text-2xl"></i>
             </div>
-            <h1 class="text-sm font-bold text-slate-300 tracking-[0.2em] uppercase">Asset Access Token</h1>
-            <p class="text-[10px] text-slate-500 mt-2 font-mono">DECRYPTING PAYLOAD...</p>
+            <h1 class="text-sm font-extrabold text-white tracking-[0.2em] uppercase">License Key</h1>
+            <p id="status-text" class="text-[10px] text-slate-400 mt-2 font-mono">GENERATING SECURE TOKEN...</p>
         </div>
         
-        <!-- Token Box -->
-        <div id="tokenContainer" class="token-display valid p-4 rounded-md text-center text-xl md:text-2xl font-black tracking-widest mb-6 min-h-[70px] flex items-center justify-center break-all relative">
-            <div class="scanline animate-scan"></div>
-            <span id="tokenText" class="relative z-20">WAIT...</span>
+        <!-- Token Display -->
+        <div id="tokenContainer" class="token-display rounded-xl text-center text-xl md:text-2xl font-black tracking-widest mb-8 min-h-[80px] flex items-center justify-center break-all">
+            <div class="laser animate-scan"></div>
+            <span id="tokenText" class="relative z-20 font-mono text-slate-500">INITIATING...</span>
         </div>
         
-        <!-- Action Buttons -->
+        <!-- Actions -->
         <div class="flex flex-col gap-3">
-            <button id="copyBtn" onclick="copyToken()" class="btn-cyber w-full py-3.5 rounded text-sm font-bold tracking-wide flex items-center justify-center gap-2 pointer-events-none opacity-50">
-                <i class="fas fa-copy"></i> COPY TOKEN
+            <button id="copyBtn" onclick="copyToken()" disabled class="btn-primary w-full py-3.5 rounded-xl text-xs font-extrabold tracking-widest flex items-center justify-center gap-2">
+                <i class="fas fa-copy"></i> COPY KEY
             </button>
             
-            <a href="index.html" class="btn-outline w-full py-3 rounded text-xs font-bold text-slate-400 border border-slate-700 flex items-center justify-center gap-2">
-                <i class="fas fa-arrow-left"></i> RETURN TO VAULT
+            <a href="https://aura-assets-nine.vercel.app/" class="btn-secondary w-full py-3.5 rounded-xl text-xs font-bold text-slate-300 flex items-center justify-center gap-2">
+                <i class="fas fa-home"></i> RETURN TO STUDIO
             </a>
         </div>
     </main>
 
-    <!-- Bottom Decor -->
-    <div class="absolute bottom-6 text-[10px] text-slate-600 font-mono tracking-widest z-10">
-        AURA_ASSETS_V2 // ENCRYPTED
-    </div>
-
-    <!-- Custom Toast Notification -->
-    <div id="toastBox" class="fixed bottom-10 z-50 bg-cyber-400 text-black px-6 py-3 rounded shadow-[0_5px_20px_rgba(245,158,11,0.4)] font-bold text-sm flex items-center gap-3 toast-enter">
-        <i class="fas fa-check-circle"></i> Token copied to clipboard!
+    <div id="toastBox" class="toast">
+        <i class="fas fa-check-circle"></i> License Key Copied!
     </div>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('code');
+        
         const tokenDisplay = document.getElementById('tokenText');
         const tokenContainer = document.getElementById('tokenContainer');
         const copyBtn = document.getElementById('copyBtn');
+        const statusText = document.getElementById('status-text');
+        const iconBox = document.getElementById('icon-box');
 
-        // Hacker text scramble effect
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*';
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$X&?';
         
-        function decryptEffect(targetText, isError = false) {
+        function runDecryption(targetText, isError = false) {
             let iterations = 0;
-            const maxIterations = 20;
+            const maxIterations = targetText.length;
             const interval = setInterval(() => {
                 tokenDisplay.innerText = targetText.split('').map((char, index) => {
                     if (index < iterations) return char;
                     return chars[Math.floor(Math.random() * chars.length)];
                 }).join('');
                 
-                iterations += 1/2; // Speed of decryption
+                iterations += 1/3; 
                 
-                if (iterations >= targetText.length) {
+                if (iterations >= maxIterations) {
                     clearInterval(interval);
                     tokenDisplay.innerText = targetText;
                     
-                    // Style adjustments after "decryption" finishes
                     if (isError) {
-                        tokenContainer.classList.remove('valid');
                         tokenContainer.classList.add('invalid');
-                        document.querySelector('.fa-fingerprint').classList.replace('fa-fingerprint', 'fa-triangle-exclamation');
-                        document.querySelector('.fa-triangle-exclamation').parentElement.classList.replace('text-cyber-400', 'text-red-500');
-                        document.querySelector('.fa-triangle-exclamation').parentElement.classList.replace('bg-cyber-500/10', 'bg-red-500/10');
-                        document.querySelector('.fa-triangle-exclamation').parentElement.classList.replace('border-cyber-500/30', 'border-red-500/30');
+                        statusText.innerText = 'INVALID OR MISSING PARAMETER';
+                        statusText.classList.add('text-red-400');
+                        iconBox.classList.replace('bg-white/5', 'bg-red-500/10');
+                        iconBox.classList.replace('border-white/10', 'border-red-500/30');
+                        iconBox.classList.replace('text-white', 'text-red-500');
+                        iconBox.innerHTML = '<i class="fas fa-exclamation-triangle text-2xl"></i>';
                         copyBtn.innerHTML = '<i class="fas fa-ban"></i> ACCESS DENIED';
                     } else {
-                        copyBtn.classList.remove('pointer-events-none', 'opacity-50');
+                        tokenContainer.classList.add('valid');
+                        statusText.innerText = 'ACCESS GRANTED';
+                        statusText.classList.add('text-cyber-400');
+                        iconBox.classList.replace('bg-white/5', 'bg-cyber-500/10');
+                        iconBox.classList.replace('border-white/10', 'border-cyber-500/30');
+                        iconBox.classList.replace('text-white', 'text-cyber-400');
+                        iconBox.innerHTML = '<i class="fas fa-check-circle text-2xl"></i>';
+                        copyBtn.disabled = false; 
                     }
                 }
             }, 30);
         }
 
-        // Initialize on load
         window.onload = () => {
             setTimeout(() => {
-                if (token) {
-                    decryptEffect(token);
+                if (token && token.trim() !== '') {
+                    runDecryption(token);
                 } else {
-                    decryptEffect("INVALID LINK", true);
+                    runDecryption("ERR_NO_TOKEN", true);
                 }
-            }, 500); // Slight delay for dramatic effect
+            }, 600); 
         };
 
-        // Copy logic with modern UI toast
         function copyToken() {
-            if (!token) return;
+            if (!token || copyBtn.disabled) return;
             
-            // Try modern clipboard API first
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(token).then(showToast).catch(fallbackCopy);
             } else {
@@ -222,7 +170,6 @@
             }
         }
         
-        // Fallback for older browsers / webviews
         function fallbackCopy() {
             const textArea = document.createElement("textarea");
             textArea.value = token;
@@ -232,24 +179,25 @@
                 document.execCommand('copy');
                 showToast();
             } catch (err) {
-                console.error('Fallback: Oops, unable to copy', err);
+                console.error('Copy failed', err);
             }
             document.body.removeChild(textArea);
         }
 
         function showToast() {
             const toast = document.getElementById('toastBox');
-            toast.classList.remove('toast-enter');
-            toast.classList.add('toast-active');
+            toast.classList.add('show');
             
-            // Change button temporarily
             const originalBtn = copyBtn.innerHTML;
             copyBtn.innerHTML = '<i class="fas fa-check"></i> COPIED!';
+            copyBtn.classList.add('bg-white', 'text-black');
+            copyBtn.style.background = '#ffffff'; 
             
             setTimeout(() => {
-                toast.classList.remove('toast-active');
-                toast.classList.add('toast-enter');
+                toast.classList.remove('show');
                 copyBtn.innerHTML = originalBtn;
+                copyBtn.classList.remove('bg-white', 'text-black');
+                copyBtn.style.background = ''; 
             }, 2500);
         }
     </script>
