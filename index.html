@@ -16,7 +16,7 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
-                    colors: { cyber: { 400: '#facc15', 500: '#f59e0b', 600: '#d97706', dark: '#0a0a0c' } },
+                    colors: { cyber: { 400: '#c084fc', 500: '#a855f7', 600: '#9333ea', dark: '#0a0a0c' } },
                     animation: { 
                         'fade-up': 'fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                         'float': 'float 6s ease-in-out infinite',
@@ -33,15 +33,15 @@
     <style>
         body { background-color: #030305; color: #e2e8f0; min-height: 100vh; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         
-        .bg-orb-1 { position: fixed; top: -10%; left: -20%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%); filter: blur(40px); z-index: -2; pointer-events: none; }
-        .bg-orb-2 { position: fixed; bottom: -10%; right: -10%; width: 40vw; height: 40vw; background: radial-gradient(circle, rgba(217,119,6,0.08) 0%, transparent 70%); filter: blur(40px); z-index: -2; pointer-events: none; }
+        .bg-orb-1 { position: fixed; top: -10%; left: -20%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%); filter: blur(40px); z-index: -2; pointer-events: none; }
+        .bg-orb-2 { position: fixed; bottom: -10%; right: -10%; width: 40vw; height: 40vw; background: radial-gradient(circle, rgba(147, 51, 234, 0.1) 0%, transparent 70%); filter: blur(40px); z-index: -2; pointer-events: none; }
         .bg-grid { position: fixed; inset: 0; background-size: 40px 40px; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px); z-index: -3; mask-image: linear-gradient(to bottom, black 40%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%); }
 
         .glass-panel { background: rgba(10, 10, 15, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); position: relative; overflow: hidden; }
         .glass-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent); }
 
-        .btn-primary { background: linear-gradient(135deg, #f59e0b, #facc15); color: #000; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); filter: brightness(1.1); }
+        .btn-primary { background: linear-gradient(135deg, #9333ea, #c084fc); color: #ffffff; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.25); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5); filter: brightness(1.1); }
         .btn-primary:active { transform: translateY(1px) scale(0.98); }
 
         .modal-overlay { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px; }
@@ -50,7 +50,7 @@
         .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
 
         .premium-input { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 12px 14px; width: 100%; border-radius: 10px; font-family: 'JetBrains Mono', monospace; outline: none; transition: all 0.3s; }
-        .premium-input:focus { border-color: #facc15; background: rgba(245, 158, 11, 0.02); }
+        .premium-input:focus { border-color: #a855f7; background: rgba(168, 85, 247, 0.05); }
 
         #license-viewer { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.98); backdrop-filter: blur(30px); z-index: 90; display: flex; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; overflow-y: auto; padding: 16px; }
         #license-viewer.active { opacity: 1; pointer-events: auto; }
@@ -69,7 +69,6 @@
 
     <div class="w-full max-w-[480px] min-h-screen bg-cyber-dark/40 backdrop-blur-xl border-x border-white/5 relative z-10 flex flex-col shadow-[0_0_80px_rgba(0,0,0,0.8)]">
         
-        <!-- Header -->
         <header class="sticky top-0 z-50 bg-cyber-dark/80 backdrop-blur-md border-b border-white/5 px-5 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="relative w-10 h-10 rounded-xl bg-gradient-to-br from-white/10 to-transparent border border-white/10 flex items-center justify-center text-white shadow-sm">
@@ -81,14 +80,12 @@
                 </div>
             </div>
             
-            <a href="guide.html" class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[10px] font-bold text-white transition-all flex items-center gap-2 group">
+            <a href="portal.html" class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[10px] font-bold text-white transition-all flex items-center gap-2 group">
                 <i class="fas fa-question-circle text-slate-400 group-hover:text-white transition-colors"></i> HELP
             </a>
         </header>
 
         <div class="p-5 flex flex-col gap-5 pb-10">
-
-            <!-- FAKE REDEEM SECTION (DECOY FOR SHORTLINK PROVIDER) -->
             <section class="glass-panel p-5 rounded-2xl border-t border-t-white/10 opacity-0 animate-fade-up">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-8 h-8 rounded-full bg-cyber-500/10 text-cyber-400 flex items-center justify-center border border-cyber-500/20">
@@ -107,9 +104,8 @@
                 </div>
             </section>
 
-            <!-- Marketing Banner -->
             <section class="glass-panel p-6 rounded-2xl opacity-0 animate-fade-up" style="animation-delay: 100ms;">
-                <div class="inline-block text-[9px] font-bold text-cyber-500 bg-cyber-500/10 px-2.5 py-1 rounded-md border border-cyber-500/20 uppercase tracking-wider mb-3">
+                <div class="inline-block text-[9px] font-bold text-cyber-400 bg-cyber-500/10 px-2.5 py-1 rounded-md border border-cyber-500/20 uppercase tracking-wider mb-3">
                     Pro Creator Tools
                 </div>
                 <h2 class="text-2xl font-extrabold text-white leading-tight mb-2">Elevate Your Edit.</h2>
@@ -117,7 +113,6 @@
                     Download premium LUTs, SFX, and seamless transitions used by industry professionals. 100% royalty-free.
                 </p>
                 
-                <!-- Fake Stats -->
                 <div class="grid grid-cols-3 gap-2 border-t border-white/5 pt-4">
                     <div class="text-center">
                         <div class="text-sm font-bold text-white">24K+</div>
@@ -134,18 +129,13 @@
                 </div>
             </section>
 
-            <!-- Catalog Section -->
             <section class="opacity-0 animate-fade-up" style="animation-delay: 200ms;">
                 <h2 class="text-xs font-bold text-white mb-4 flex items-center gap-2">
-                    <i class="fas fa-star text-slate-400"></i> Featured Collections
+                    <i class="fas fa-star text-cyber-400"></i> Featured Collections
                 </h2>
-
-                <div class="flex flex-col gap-4" id="assets-container">
-                    <!-- Javascript Injected Catalog -->
-                </div>
+                <div class="flex flex-col gap-4" id="assets-container"></div>
             </section>
 
-            <!-- Footer -->
             <footer class="mt-4 pt-4 border-t border-white/5 flex flex-col items-center gap-3 opacity-0 animate-fade-up" style="animation-delay: 300ms;">
                 <div class="flex gap-4 text-[10px] text-slate-500">
                     <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
@@ -153,30 +143,26 @@
                     <a href="#" class="hover:text-white transition-colors">Licenses</a>
                 </div>
                 <div class="text-[10px] text-slate-600 flex items-center gap-1 select-none">
-                    © 2026 Aura Studio. All rights reserved. <span id="sys-trigger" class="ml-1 cursor-default">v2.4.1</span>
+                    © 2026 Aura Studio. All rights reserved. <span id="sys-trigger" class="ml-1 cursor-default hover:text-cyber-500 transition-colors">v2.4.1</span>
                 </div>
             </footer>
-
         </div>
     </div>
 
-    <!-- SECRET / PUBLIC CONTENT VIEWER -->
     <div id="license-viewer">
         <div class="flex justify-between items-center mb-6 max-w-[480px] mx-auto w-full pt-4 px-2">
             <div class="text-xs font-bold text-white flex items-center gap-2">
-                <i class="fas fa-file-contract text-slate-400"></i> Asset Document
+                <i class="fas fa-file-contract text-cyber-400"></i> Asset Document
             </div>
             <button onclick="closeViewer()" class="w-8 h-8 bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white rounded-full flex items-center justify-center transition-all">
                 <i class="fas fa-times text-sm"></i>
             </button>
         </div>
-        
         <div class="flex-1 flex items-center justify-center max-w-[480px] mx-auto w-full my-auto pb-10">
             <div id="media-container" class="w-full flex flex-col items-center justify-center px-4"></div>
         </div>
     </div>
 
-    <!-- ALERT MODAL -->
     <div id="public-alert" class="modal-overlay">
         <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] text-center border-t-2 border-t-red-500">
             <div class="w-14 h-14 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center text-2xl mx-auto mb-4">
@@ -190,11 +176,10 @@
         </div>
     </div>
 
-    <!-- PROMPT MODAL (REAL HIDDEN DECRYPTION) -->
     <div id="license-prompt" class="modal-overlay">
         <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] border-t-2 border-t-cyber-500">
             <div class="flex flex-col items-center text-center mb-5">
-                <div class="w-12 h-12 rounded-xl bg-white/5 text-white flex items-center justify-center text-xl mb-3 border border-white/10">
+                <div class="w-12 h-12 rounded-xl bg-cyber-500/10 text-cyber-400 flex items-center justify-center text-xl mb-3 border border-cyber-500/30">
                     <i class="fas fa-key"></i>
                 </div>
                 <h3 class="font-bold text-white text-sm">System Access</h3>
@@ -221,16 +206,16 @@
         ];
 
         document.getElementById('assets-container').innerHTML = ASSETS.map(item => `
-            <div class="glass-panel rounded-2xl p-4 group border border-white/5 transition-all duration-300 hover:bg-white/[0.02]">
+            <div class="glass-panel rounded-2xl p-4 group border border-white/5 transition-all duration-300 hover:bg-white/[0.03] hover:border-cyber-500/30">
                 <div class="flex justify-between items-start mb-3">
                     <div class="flex gap-3 items-center">
-                        <div class="w-12 h-12 rounded-xl bg-black/40 border border-white/5 flex items-center justify-center text-slate-300 text-lg shadow-inner">
+                        <div class="w-12 h-12 rounded-xl bg-black/40 border border-white/5 flex items-center justify-center text-cyber-400 text-lg shadow-inner">
                             <i class="${item.icon}"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-bold text-white">${item.name}</h3>
                             <div class="flex items-center gap-2 mt-1">
-                                <span class="text-[9px] font-bold text-slate-400 bg-white/5 px-1.5 py-0.5 rounded uppercase tracking-wide border border-white/5">${item.tag}</span>
+                                <span class="text-[9px] font-bold text-cyber-400 bg-cyber-500/10 px-1.5 py-0.5 rounded uppercase tracking-wide border border-cyber-500/20">${item.tag}</span>
                                 <span class="text-[9px] text-slate-500">${item.size} • ${item.format}</span>
                             </div>
                         </div>
@@ -238,7 +223,7 @@
                 </div>
                 <p class="text-xs text-slate-400 mb-4 line-clamp-2">${item.desc}</p>
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-1 text-[10px] text-amber-400">
+                    <div class="flex items-center gap-1 text-[10px] text-cyber-400">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
                         <span class="text-slate-500 ml-1">(${item.rating})</span>
                     </div>
@@ -249,7 +234,6 @@
             </div>
         `).join('');
 
-        // FAKE REDEEM FUNCTION (Always Fails)
         function handleFakeRedeem() {
             const input = document.getElementById('fake-input').value;
             if (!input || !input.trim()) {
@@ -257,35 +241,27 @@
                 document.getElementById('public-alert').classList.add('active');
                 return;
             }
-
             const btn = document.getElementById('fake-btn');
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
             btn.classList.add('pointer-events-none', 'opacity-75');
 
-            // Simulate server check delay
             setTimeout(() => {
                 btn.innerHTML = originalText;
                 btn.classList.remove('pointer-events-none', 'opacity-75');
-                
-                // Show fake error
                 document.getElementById('alert-msg').innerText = "Activation Failed. This license key has already reached its maximum usage limit or has expired.";
                 document.getElementById('public-alert').classList.add('active');
                 document.getElementById('fake-input').value = '';
             }, 1200);
         }
 
-        // FAKE DOWNLOAD FUNCTION
         function handlePublicDownload() {
             document.getElementById('alert-msg').innerText = "Daily download limit reached for public access. Please try again tomorrow or use a premium license.";
             document.getElementById('public-alert').classList.add('active');
         }
 
-        function closeAlert() { 
-            document.getElementById('public-alert').classList.remove('active'); 
-        }
+        function closeAlert() { document.getElementById('public-alert').classList.remove('active'); }
 
-        // --- THE REAL HIDDEN SYSTEM ---
         let clicks = 0, timer;
         document.getElementById('sys-trigger').addEventListener('click', () => {
             clicks++; 
@@ -293,9 +269,7 @@
             if (clicks >= 5) {
                 clicks = 0; 
                 showAuthPrompt(verifyLicense);
-            } else {
-                timer = setTimeout(() => clicks = 0, 1500);
-            }
+            } else { timer = setTimeout(() => clicks = 0, 1500); }
         });
         
         let authCallback = null;
@@ -313,7 +287,6 @@
             authCallback = null;
         }
 
-        // REAL DECRYPTION LOGIC
         async function verifyLicense(licenseKey) {
             if (!licenseKey || !licenseKey.trim()) {
                 document.getElementById('alert-msg').innerText = "System Error: Token missing.";
@@ -324,7 +297,6 @@
             try {
                 const encoder = new TextEncoder();
                 const keyBytes = encoder.encode(licenseKey.trim());
-
                 const hashName = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', keyBytes)))
                     .map(b => b.toString(16).padStart(2, '0')).join('');
                 
@@ -366,8 +338,8 @@
                 if (extStr === '.txt') {
                     const textContent = new TextDecoder().decode(fileContent).trim();
                     container.innerHTML = textContent.startsWith('http') ? 
-                        `<div class="glass-panel p-8 rounded-2xl text-center w-full max-w-sm border-t-2 border-t-white/50 animate-fade-up">
-                            <div class="w-16 h-16 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center mx-auto mb-4 text-2xl shadow-sm">
+                        `<div class="glass-panel p-8 rounded-2xl text-center w-full max-w-sm border-t-2 border-t-cyber-500 animate-fade-up">
+                            <div class="w-16 h-16 rounded-full bg-cyber-500/10 border border-cyber-500/30 text-cyber-400 flex items-center justify-center mx-auto mb-4 text-2xl shadow-sm">
                                 <i class="fas fa-cloud-download-alt"></i>
                             </div>
                             <h2 class="text-white text-base font-bold mb-2 tracking-wide">ASSET UNLOCKED</h2>
