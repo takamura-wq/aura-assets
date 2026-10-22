@@ -133,14 +133,18 @@
         function runDecryption(targetText, isError = false) {
             let iterations = 0;
             const maxIterations = targetText.length;
+            
+            // Kecepatan dinamis: jika teks pendek (step pelan 0.4), jika teks panjang akan ngebut menyesuaikan panjangnya
+            const speedStep = Math.max(0.4, maxIterations / 50);
+            
             const interval = setInterval(() => {
                 tokenDisplay.innerText = targetText.split('').map((char, index) => {
                     if (index < iterations) return char;
                     return chars[Math.floor(Math.random() * chars.length)];
                 }).join('');
                 
-                // Kurangi kecepatan animasi sedikit untuk teks yang sangat panjang 
-                iterations += 1/2; 
+                // Menggunakan kecepatan dinamis
+                iterations += speedStep; 
                 
                 // Fitur Auto-Scroll: mengikuti progress huruf yang sedang dipecahkan
                 const maxScroll = Math.max(0, tokenContainer.scrollHeight - tokenContainer.clientHeight);
