@@ -79,7 +79,7 @@
         </div>
         
         <!-- Token Display -->
-        <div id="tokenContainer" class="token-display rounded-xl text-center text-xl md:text-xl font-black tracking-widest mb-8 min-h-[80px] flex items-center justify-center p-4 break-all">
+        <div id="tokenContainer" class="token-display rounded-xl text-center text-[1rem] leading-tight md:text-xl font-black tracking-wider p-4 mb-8 min-h-[80px] flex items-center justify-center break-all">
             <div class="laser animate-scan"></div>
             <span id="tokenText" class="relative z-20 font-mono text-slate-500">INITIATING...</span>
         </div>
@@ -101,17 +101,18 @@
     </div>
 
     <script>
-        // Custom URL parsing to avoid splitting at '&' characters within the code
-        const queryString = window.location.search;
+        // Custom logic untuk menangkap RAW parameter dari URL agar simbol `&` tidak terpotong
         let token = null;
+        const searchRaw = window.location.search;
+        const codeMatch = searchRaw.match(/[?&]code=([^]*)/);
         
-        if (queryString.includes('code=')) {
-            // Ambil semua teks setelah 'code='
-            token = queryString.split('code=')[1];
+        if (codeMatch && codeMatch[1]) {
+            token = codeMatch[1];
             try {
-                // Decode jika ada karakter yang ter-encode (seperti %20 dll)
+                // Lakukan decoding seandainya browser mengirim dalam bentuk percent-encoded
                 token = decodeURIComponent(token);
-            } catch (e) {
+            } catch(e) {
+                // Biarkan teks tetap raw jika tidak bisa di-decode
                 console.warn("Could not decode URI component", e);
             }
         }
@@ -133,8 +134,8 @@
                     return chars[Math.floor(Math.random() * chars.length)];
                 }).join('');
                 
-                // Menyesuaikan kecepatan animasi agar teks yang panjang tidak terlalu lama
-                iterations += targetText.length > 20 ? 1 : 1/3; 
+                // Kurangi kecepatan animasi sedikit untuk teks yang sangat panjang 
+                iterations += 1/2; 
                 
                 if (iterations >= maxIterations) {
                     clearInterval(interval);
@@ -160,7 +161,7 @@
                         copyBtn.disabled = false; 
                     }
                 }
-            }, 30);
+            }, 20);
         }
 
         window.onload = () => {
