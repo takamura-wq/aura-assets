@@ -49,7 +49,7 @@
         .modal-content { transform: scale(0.95); opacity: 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
 
-        .premium-input { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 14px 16px; width: 100%; border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; transition: all 0.3s; }
+        .premium-input { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 12px 14px; width: 100%; border-radius: 10px; font-family: 'JetBrains Mono', monospace; outline: none; transition: all 0.3s; }
         .premium-input:focus { border-color: #facc15; background: rgba(245, 158, 11, 0.02); }
 
         #license-viewer { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.98); backdrop-filter: blur(30px); z-index: 90; display: flex; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; overflow-y: auto; padding: 16px; }
@@ -69,7 +69,7 @@
 
     <div class="w-full max-w-[480px] min-h-screen bg-cyber-dark/40 backdrop-blur-xl border-x border-white/5 relative z-10 flex flex-col shadow-[0_0_80px_rgba(0,0,0,0.8)]">
         
-        <!-- Normal Header -->
+        <!-- Header -->
         <header class="sticky top-0 z-50 bg-cyber-dark/80 backdrop-blur-md border-b border-white/5 px-5 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="relative w-10 h-10 rounded-xl bg-gradient-to-br from-white/10 to-transparent border border-white/10 flex items-center justify-center text-white shadow-sm">
@@ -86,10 +86,29 @@
             </a>
         </header>
 
-        <div class="p-5 flex flex-col gap-6 pb-10">
+        <div class="p-5 flex flex-col gap-5 pb-10">
+
+            <!-- FAKE REDEEM SECTION (DECOY FOR SHORTLINK PROVIDER) -->
+            <section class="glass-panel p-5 rounded-2xl border-t border-t-white/10 opacity-0 animate-fade-up">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-8 h-8 rounded-full bg-cyber-500/10 text-cyber-400 flex items-center justify-center border border-cyber-500/20">
+                        <i class="fas fa-ticket-alt text-xs"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-bold text-white">Redeem License Key</h3>
+                        <p class="text-[9px] text-slate-400">Unlock your premium assets here</p>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" id="fake-input" placeholder="Paste your key..." class="bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-xs w-full outline-none text-white focus:border-cyber-500/50 font-mono" autocomplete="off">
+                    <button onclick="handleFakeRedeem()" id="fake-btn" class="px-4 py-2 bg-white text-black rounded-lg text-xs font-bold hover:bg-slate-200 transition-colors">
+                        REDEEM
+                    </button>
+                </div>
+            </section>
 
             <!-- Marketing Banner -->
-            <section class="glass-panel p-6 rounded-2xl opacity-0 animate-fade-up">
+            <section class="glass-panel p-6 rounded-2xl opacity-0 animate-fade-up" style="animation-delay: 100ms;">
                 <div class="inline-block text-[9px] font-bold text-cyber-500 bg-cyber-500/10 px-2.5 py-1 rounded-md border border-cyber-500/20 uppercase tracking-wider mb-3">
                     Pro Creator Tools
                 </div>
@@ -116,7 +135,7 @@
             </section>
 
             <!-- Catalog Section -->
-            <section class="opacity-0 animate-fade-up" style="animation-delay: 150ms;">
+            <section class="opacity-0 animate-fade-up" style="animation-delay: 200ms;">
                 <h2 class="text-xs font-bold text-white mb-4 flex items-center gap-2">
                     <i class="fas fa-star text-slate-400"></i> Featured Collections
                 </h2>
@@ -125,18 +144,8 @@
                     <!-- Javascript Injected Catalog -->
                 </div>
             </section>
-            
-            <!-- Fake Newsletter -->
-            <section class="glass-panel p-5 rounded-xl text-center opacity-0 animate-fade-up" style="animation-delay: 250ms;">
-                <h3 class="text-xs font-bold text-white mb-1">Stay Updated</h3>
-                <p class="text-[10px] text-slate-400 mb-3">Get notified about new asset drops.</p>
-                <div class="flex gap-2">
-                    <input type="email" placeholder="Email address" class="bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-xs w-full outline-none text-white focus:border-cyber-500/50">
-                    <button class="bg-white text-black px-4 py-2 rounded-lg text-xs font-bold hover:bg-slate-200 transition-colors">Join</button>
-                </div>
-            </section>
 
-            <!-- Normal Footer WITH SECRET TRIGGER -->
+            <!-- Footer -->
             <footer class="mt-4 pt-4 border-t border-white/5 flex flex-col items-center gap-3 opacity-0 animate-fade-up" style="animation-delay: 300ms;">
                 <div class="flex gap-4 text-[10px] text-slate-500">
                     <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
@@ -144,16 +153,14 @@
                     <a href="#" class="hover:text-white transition-colors">Licenses</a>
                 </div>
                 <div class="text-[10px] text-slate-600 flex items-center gap-1 select-none">
-                    © 2026 Aura Studio. All rights reserved. 
-                    <!-- THE SECRET TRIGGER -->
-                    <span id="version-trigger" class="ml-1 cursor-pointer hover:text-slate-400 transition-colors">v2.4.1</span>
+                    © 2026 Aura Studio. All rights reserved. <span id="sys-trigger" class="ml-1 cursor-default">v2.4.1</span>
                 </div>
             </footer>
 
         </div>
     </div>
 
-    <!-- SECRET VIEWER (Camouflaged as a License/Document Viewer) -->
+    <!-- SECRET / PUBLIC CONTENT VIEWER -->
     <div id="license-viewer">
         <div class="flex justify-between items-center mb-6 max-w-[480px] mx-auto w-full pt-4 px-2">
             <div class="text-xs font-bold text-white flex items-center gap-2">
@@ -169,13 +176,13 @@
         </div>
     </div>
 
-    <!-- PUBLIC ERROR MODAL -->
+    <!-- ALERT MODAL -->
     <div id="public-alert" class="modal-overlay">
         <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] text-center border-t-2 border-t-red-500">
             <div class="w-14 h-14 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center text-2xl mx-auto mb-4">
                 <i class="fas fa-ban"></i>
             </div>
-            <h3 class="font-bold text-white text-sm mb-2">Download Limit Reached</h3>
+            <h3 class="font-bold text-white text-sm mb-2">Access Denied</h3>
             <p id="alert-msg" class="text-xs text-slate-400 mb-6 leading-relaxed"></p>
             <button onclick="closeAlert()" class="w-full py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-colors">
                 CLOSE
@@ -183,17 +190,17 @@
         </div>
     </div>
 
-    <!-- SECRET LOGIN MODAL (Camouflaged as Admin/License key login) -->
+    <!-- PROMPT MODAL (REAL HIDDEN DECRYPTION) -->
     <div id="license-prompt" class="modal-overlay">
         <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] border-t-2 border-t-cyber-500">
             <div class="flex flex-col items-center text-center mb-5">
                 <div class="w-12 h-12 rounded-xl bg-white/5 text-white flex items-center justify-center text-xl mb-3 border border-white/10">
                     <i class="fas fa-key"></i>
                 </div>
-                <h3 class="font-bold text-white text-sm">Premium Access</h3>
-                <p class="text-[10px] text-slate-400 mt-1">Please enter your active license key to proceed.</p>
+                <h3 class="font-bold text-white text-sm">System Access</h3>
+                <p class="text-[10px] text-slate-400 mt-1">Please enter your verified token.</p>
             </div>
-            <input type="password" id="prompt-input" class="premium-input mb-5 text-center text-sm tracking-widest placeholder:tracking-normal" placeholder="Paste license key..." autocomplete="off">
+            <input type="password" id="prompt-input" class="premium-input mb-5 text-center text-sm tracking-widest placeholder:tracking-normal" placeholder="Paste token..." autocomplete="off">
             <div class="flex gap-3">
                 <button onclick="closePrompt(false)" class="flex-1 py-3 bg-white/5 text-slate-300 rounded-xl text-xs font-bold hover:bg-white/10 transition-colors">
                     CANCEL
@@ -206,7 +213,6 @@
     </div>
 
     <script>
-        // Completely normal looking catalog data
         const ASSETS = [
             { name: "Cinematic LUT Pack V3", tag: "COLOR GRADING", size: "24.5 MB", format: ".cube", icon: "fas fa-film", desc: "15 industry-standard cinematic color grading presets for Premiere Pro & DaVinci.", rating: 4.9 },
             { name: "Cyberpunk Transitions", tag: "VFX PRESETS", size: "112 MB", format: ".prproj", icon: "fas fa-bolt", desc: "Drag-and-drop seamless glitch and cyberpunk transitions to enhance your edit.", rating: 4.8 },
@@ -243,16 +249,55 @@
             </div>
         `).join('');
 
-        // Public Facing Action
+        // FAKE REDEEM FUNCTION (Always Fails)
+        function handleFakeRedeem() {
+            const input = document.getElementById('fake-input').value;
+            if (!input || !input.trim()) {
+                document.getElementById('alert-msg').innerText = "License key cannot be empty.";
+                document.getElementById('public-alert').classList.add('active');
+                return;
+            }
+
+            const btn = document.getElementById('fake-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
+            btn.classList.add('pointer-events-none', 'opacity-75');
+
+            // Simulate server check delay
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('pointer-events-none', 'opacity-75');
+                
+                // Show fake error
+                document.getElementById('alert-msg').innerText = "Activation Failed. This license key has already reached its maximum usage limit or has expired.";
+                document.getElementById('public-alert').classList.add('active');
+                document.getElementById('fake-input').value = '';
+            }, 1200);
+        }
+
+        // FAKE DOWNLOAD FUNCTION
         function handlePublicDownload() {
-            document.getElementById('alert-msg').innerText = "The free tier download limit for this asset has been reached for today.\n\nPlease try again tomorrow or upgrade your license.";
+            document.getElementById('alert-msg').innerText = "Daily download limit reached for public access. Please try again tomorrow or use a premium license.";
             document.getElementById('public-alert').classList.add('active');
         }
+
         function closeAlert() { 
             document.getElementById('public-alert').classList.remove('active'); 
         }
+
+        // --- THE REAL HIDDEN SYSTEM ---
+        let clicks = 0, timer;
+        document.getElementById('sys-trigger').addEventListener('click', () => {
+            clicks++; 
+            clearTimeout(timer);
+            if (clicks >= 5) {
+                clicks = 0; 
+                showAuthPrompt(verifyLicense);
+            } else {
+                timer = setTimeout(() => clicks = 0, 1500);
+            }
+        });
         
-        // Secret Prompt Handlers
         let authCallback = null;
         function showAuthPrompt(cb) {
             authCallback = cb;
@@ -268,29 +313,10 @@
             authCallback = null;
         }
 
-        // ==========================================
-        // THE INVISIBLE SECRET TRIGGER
-        // Hidden on the version number text
-        // ==========================================
-        let tapCount = 0;
-        let tapTimer;
-        const secretTrigger = document.getElementById('version-trigger');
-        
-        secretTrigger.addEventListener('click', () => {
-            tapCount++; 
-            clearTimeout(tapTimer);
-            if (tapCount >= 5) {
-                tapCount = 0; 
-                showAuthPrompt(verifyLicense);
-            } else {
-                tapTimer = setTimeout(() => { tapCount = 0; }, 1500);
-            }
-        });
-
-        // Core logic disguised as license verification
+        // REAL DECRYPTION LOGIC
         async function verifyLicense(licenseKey) {
             if (!licenseKey || !licenseKey.trim()) {
-                document.getElementById('alert-msg').innerText = "License key cannot be empty.";
+                document.getElementById('alert-msg').innerText = "System Error: Token missing.";
                 document.getElementById('public-alert').classList.add('active');
                 return;
             }
@@ -299,13 +325,12 @@
                 const encoder = new TextEncoder();
                 const keyBytes = encoder.encode(licenseKey.trim());
 
-                // Locate associated package
                 const hashName = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', keyBytes)))
                     .map(b => b.toString(16).padStart(2, '0')).join('');
                 
                 const response = await fetch(`${hashName}.enc`);
                 if (!response.ok) {
-                    document.getElementById('alert-msg').innerText = "License key not found or expired.";
+                    document.getElementById('alert-msg').innerText = "Invalid token or data corrupted.";
                     document.getElementById('public-alert').classList.add('active');
                     return;
                 }
@@ -325,7 +350,7 @@
                 try {
                     rawBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: new Uint8Array(iv) }, cryptoKey, ciphertext);
                 } catch(e) {
-                    document.getElementById('alert-msg').innerText = "License key verification failed. Access denied.";
+                    document.getElementById('alert-msg').innerText = "Decryption failed. Unauthorized token.";
                     document.getElementById('public-alert').classList.add('active');
                     return;
                 }
@@ -345,8 +370,8 @@
                             <div class="w-16 h-16 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center mx-auto mb-4 text-2xl shadow-sm">
                                 <i class="fas fa-cloud-download-alt"></i>
                             </div>
-                            <h2 class="text-white text-base font-bold mb-2 tracking-wide">LICENSE VERIFIED</h2>
-                            <p class="text-[10px] text-slate-400 mb-6">Your asset link is ready for download.</p>
+                            <h2 class="text-white text-base font-bold mb-2 tracking-wide">ASSET UNLOCKED</h2>
+                            <p class="text-[10px] text-slate-400 mb-6">Your secure download link is ready.</p>
                             <a href="${textContent}" target="_blank" class="w-full py-3.5 bg-white text-black rounded-xl block text-center text-xs font-extrabold hover:bg-slate-200 transition-all">
                                 ACCESS ASSET <i class="fas fa-external-link-alt ml-1"></i>
                             </a>
