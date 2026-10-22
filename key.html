@@ -134,8 +134,9 @@
             let iterations = 0;
             const maxIterations = targetText.length;
             
-            // Kecepatan dinamis: jika teks pendek (step pelan 0.4), jika teks panjang akan ngebut menyesuaikan panjangnya
-            const speedStep = Math.max(0.4, maxIterations / 50);
+            // Kecepatan dinamis (Aesthetic): 
+            // Teks pendek selesai dlm ~1 detik, teks sangat panjang selesai dlm ~2 detik
+            const speedStep = Math.max(0.3, maxIterations / 100);
             
             const interval = setInterval(() => {
                 tokenDisplay.innerText = targetText.split('').map((char, index) => {
