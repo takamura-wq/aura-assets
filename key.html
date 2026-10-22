@@ -79,7 +79,7 @@
         </div>
         
         <!-- Token Display -->
-        <div id="tokenContainer" class="token-display rounded-xl text-center text-xl md:text-2xl font-black tracking-widest mb-8 min-h-[80px] flex items-center justify-center break-all">
+        <div id="tokenContainer" class="token-display rounded-xl text-center text-xl md:text-xl font-black tracking-widest mb-8 min-h-[80px] flex items-center justify-center p-4 break-all">
             <div class="laser animate-scan"></div>
             <span id="tokenText" class="relative z-20 font-mono text-slate-500">INITIATING...</span>
         </div>
@@ -101,8 +101,20 @@
     </div>
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('code');
+        // Custom URL parsing to avoid splitting at '&' characters within the code
+        const queryString = window.location.search;
+        let token = null;
+        
+        if (queryString.includes('code=')) {
+            // Ambil semua teks setelah 'code='
+            token = queryString.split('code=')[1];
+            try {
+                // Decode jika ada karakter yang ter-encode (seperti %20 dll)
+                token = decodeURIComponent(token);
+            } catch (e) {
+                console.warn("Could not decode URI component", e);
+            }
+        }
         
         const tokenDisplay = document.getElementById('tokenText');
         const tokenContainer = document.getElementById('tokenContainer');
@@ -121,7 +133,8 @@
                     return chars[Math.floor(Math.random() * chars.length)];
                 }).join('');
                 
-                iterations += 1/3; 
+                // Menyesuaikan kecepatan animasi agar teks yang panjang tidak terlalu lama
+                iterations += targetText.length > 20 ? 1 : 1/3; 
                 
                 if (iterations >= maxIterations) {
                     clearInterval(interval);
