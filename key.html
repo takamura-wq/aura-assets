@@ -101,19 +101,18 @@
     </div>
 
     <script>
-        // Custom logic untuk menangkap RAW parameter dari URL agar simbol `&` tidak terpotong
+        // Ambil keseluruhan URL mentah untuk menangkap simbol "#" (hash) dan "&"
         let token = null;
-        const searchRaw = window.location.search;
-        const codeMatch = searchRaw.match(/[?&]code=([^]*)/);
+        const fullUrl = window.location.href;
+        const codeMatch = fullUrl.match(/[?&]code=([^]*)/);
         
         if (codeMatch && codeMatch[1]) {
             token = codeMatch[1];
             try {
-                // Lakukan decoding seandainya browser mengirim dalam bentuk percent-encoded
+                // Decode teks jika URL di-encode oleh browser, abaikan jika gagal
                 token = decodeURIComponent(token);
             } catch(e) {
-                // Biarkan teks tetap raw jika tidak bisa di-decode
-                console.warn("Could not decode URI component", e);
+                console.warn("Teks dibiarkan mentah karena mengandung karakter acak", e);
             }
         }
         
