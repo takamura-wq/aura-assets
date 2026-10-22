@@ -1,256 +1,386 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura Assets | Creator Tools</title>
+    <title>Aura Studio | Premium Creator Assets</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <!-- 
-      OFFLINE MODE TIP: 
-      Jika Anda ingin web ini bisa dibuka tanpa internet sama sekali, 
-      download file JS dari cdn.tailwindcss.com dan file CSS font-awesome, 
-      lalu simpan di folder yang sama dengan index.html ini.
-    -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
-                    colors: { cyber: { 400: '#facc15', 500: '#f59e0b', 600: '#d97706' } },
-                    animation: { 'spin-slow': 'spin 4s linear infinite' }
+                    colors: { cyber: { 400: '#facc15', 500: '#f59e0b', 600: '#d97706', dark: '#0a0a0c' } },
+                    animation: { 
+                        'fade-up': 'fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } }
+                    }
                 }
             }
         }
     </script>
 
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020203; color: #e2e8f0; min-height: 100vh; overflow-x: hidden; }
-        #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
-        .glass-panel { background: linear-gradient(145deg, rgba(15,15,18,0.8), rgba(5,5,8,0.95)); backdrop-filter: blur(20px); border: 1px solid rgba(245,158,11,0.15); }
-        .btn-cyber { background: linear-gradient(135deg, #d97706 0%, #facc15 100%); color: #000; transition: all 0.2s; }
-        .btn-cyber:active { transform: translateY(2px) scale(0.97); }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-up { animation: fadeUp 0.6s forwards; }
+        body { background-color: #030305; color: #e2e8f0; min-height: 100vh; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         
-        /* System Diagnostics Overlay (Obfuscated Secret Room) */
-        #sys-diag { position: fixed; inset: 0; background: rgba(2,2,3,0.98); backdrop-filter: blur(15px); z-index: 9999; display: flex; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; overflow-y: auto; padding: 20px; }
-        #sys-diag.active { opacity: 1; pointer-events: auto; }
-        #media-container { max-width: 900px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; }
-        #media-container video, #media-container img { width: 100%; border-radius: 12px; border: 1px solid rgba(245,158,11,0.3); }
+        .bg-orb-1 { position: fixed; top: -10%; left: -20%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%); filter: blur(40px); z-index: -2; pointer-events: none; }
+        .bg-orb-2 { position: fixed; bottom: -10%; right: -10%; width: 40vw; height: 40vw; background: radial-gradient(circle, rgba(217,119,6,0.08) 0%, transparent 70%); filter: blur(40px); z-index: -2; pointer-events: none; }
+        .bg-grid { position: fixed; inset: 0; background-size: 40px 40px; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px); z-index: -3; mask-image: linear-gradient(to bottom, black 40%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%); }
 
-        .cyber-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; padding: 20px; transition: opacity 0.3s; }
-        .cyber-modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .cyber-input { background: rgba(0,0,0,0.6); border: 1px solid rgba(245,158,11,0.3); color: #facc15; padding: 12px; width: 100%; border-radius: 6px; font-family: monospace; outline: none; }
-        .cyber-input:focus { border-color: #facc15; }
+        .glass-panel { background: rgba(10, 10, 15, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); position: relative; overflow: hidden; }
+        .glass-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent); }
+
+        .btn-primary { background: linear-gradient(135deg, #f59e0b, #facc15); color: #000; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); filter: brightness(1.1); }
+        .btn-primary:active { transform: translateY(1px) scale(0.98); }
+
+        .modal-overlay { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { transform: scale(0.95); opacity: 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
+
+        .premium-input { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 14px 16px; width: 100%; border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; transition: all 0.3s; }
+        .premium-input:focus { border-color: #facc15; background: rgba(245, 158, 11, 0.02); }
+
+        #license-viewer { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.98); backdrop-filter: blur(30px); z-index: 90; display: flex; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; overflow-y: auto; padding: 16px; }
+        #license-viewer.active { opacity: 1; pointer-events: auto; }
+        .protected-media { pointer-events: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-user-drag: none; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
     </style>
 </head>
 
-<body class="p-3 md:p-8 flex justify-center items-start">
-    <canvas id="bg-canvas"></canvas>
+<body class="flex justify-center">
+    <div class="bg-orb-1 animate-float"></div>
+    <div class="bg-orb-2 animate-float" style="animation-delay: -3s;"></div>
+    <div class="bg-grid"></div>
 
-    <div class="w-full max-w-4xl flex flex-col gap-6 relative z-10 mx-auto pb-12">
-        <nav class="glass-panel rounded-xl p-3 flex justify-between items-center sticky top-2 opacity-0 animate-fade-up">
-            <div id="sys-trigger" class="flex items-center gap-2 font-mono text-sm text-slate-500 cursor-default select-none py-2 px-2">
-                <i class="fas fa-terminal"></i><span>sys.aura_assets<span class="animate-pulse text-cyber-400">_</span></span>
+    <div class="w-full max-w-[480px] min-h-screen bg-cyber-dark/40 backdrop-blur-xl border-x border-white/5 relative z-10 flex flex-col shadow-[0_0_80px_rgba(0,0,0,0.8)]">
+        
+        <!-- Normal Header -->
+        <header class="sticky top-0 z-50 bg-cyber-dark/80 backdrop-blur-md border-b border-white/5 px-5 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="relative w-10 h-10 rounded-xl bg-gradient-to-br from-white/10 to-transparent border border-white/10 flex items-center justify-center text-white shadow-sm">
+                    <i class="fas fa-layer-group text-lg"></i>
+                </div>
+                <div class="flex flex-col select-none">
+                    <h1 class="font-extrabold text-white text-base tracking-tight leading-none">AURA STUDIO</h1>
+                    <span class="text-[10px] text-slate-500 font-medium mt-0.5">Asset Hub</span>
+                </div>
             </div>
-            <div class="flex items-center gap-2 bg-black/50 border border-cyber-500/20 px-3 py-1.5 rounded-full">
-                <i class="fas fa-fire text-orange-500 text-[10px] animate-pulse"></i>
-                <span class="font-mono text-[10px] text-slate-300">10K+ DL/Today</span>
+            
+            <a href="guide.html" class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[10px] font-bold text-white transition-all flex items-center gap-2 group">
+                <i class="fas fa-question-circle text-slate-400 group-hover:text-white transition-colors"></i> HELP
+            </a>
+        </header>
+
+        <div class="p-5 flex flex-col gap-6 pb-10">
+
+            <!-- Marketing Banner -->
+            <section class="glass-panel p-6 rounded-2xl opacity-0 animate-fade-up">
+                <div class="inline-block text-[9px] font-bold text-cyber-500 bg-cyber-500/10 px-2.5 py-1 rounded-md border border-cyber-500/20 uppercase tracking-wider mb-3">
+                    Pro Creator Tools
+                </div>
+                <h2 class="text-2xl font-extrabold text-white leading-tight mb-2">Elevate Your Edit.</h2>
+                <p class="text-xs text-slate-400 leading-relaxed mb-5">
+                    Download premium LUTs, SFX, and seamless transitions used by industry professionals. 100% royalty-free.
+                </p>
+                
+                <!-- Fake Stats -->
+                <div class="grid grid-cols-3 gap-2 border-t border-white/5 pt-4">
+                    <div class="text-center">
+                        <div class="text-sm font-bold text-white">24K+</div>
+                        <div class="text-[9px] text-slate-500">Users</div>
+                    </div>
+                    <div class="text-center border-l border-white/5">
+                        <div class="text-sm font-bold text-white">100+</div>
+                        <div class="text-[9px] text-slate-500">Assets</div>
+                    </div>
+                    <div class="text-center border-l border-white/5">
+                        <div class="text-sm font-bold text-white">4.9/5</div>
+                        <div class="text-[9px] text-slate-500">Rating</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Catalog Section -->
+            <section class="opacity-0 animate-fade-up" style="animation-delay: 150ms;">
+                <h2 class="text-xs font-bold text-white mb-4 flex items-center gap-2">
+                    <i class="fas fa-star text-slate-400"></i> Featured Collections
+                </h2>
+
+                <div class="flex flex-col gap-4" id="assets-container">
+                    <!-- Javascript Injected Catalog -->
+                </div>
+            </section>
+            
+            <!-- Fake Newsletter -->
+            <section class="glass-panel p-5 rounded-xl text-center opacity-0 animate-fade-up" style="animation-delay: 250ms;">
+                <h3 class="text-xs font-bold text-white mb-1">Stay Updated</h3>
+                <p class="text-[10px] text-slate-400 mb-3">Get notified about new asset drops.</p>
+                <div class="flex gap-2">
+                    <input type="email" placeholder="Email address" class="bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-xs w-full outline-none text-white focus:border-cyber-500/50">
+                    <button class="bg-white text-black px-4 py-2 rounded-lg text-xs font-bold hover:bg-slate-200 transition-colors">Join</button>
+                </div>
+            </section>
+
+            <!-- Normal Footer WITH SECRET TRIGGER -->
+            <footer class="mt-4 pt-4 border-t border-white/5 flex flex-col items-center gap-3 opacity-0 animate-fade-up" style="animation-delay: 300ms;">
+                <div class="flex gap-4 text-[10px] text-slate-500">
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Licenses</a>
+                </div>
+                <div class="text-[10px] text-slate-600 flex items-center gap-1 select-none">
+                    © 2026 Aura Studio. All rights reserved. 
+                    <!-- THE SECRET TRIGGER -->
+                    <span id="version-trigger" class="ml-1 cursor-pointer hover:text-slate-400 transition-colors">v2.4.1</span>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+
+    <!-- SECRET VIEWER (Camouflaged as a License/Document Viewer) -->
+    <div id="license-viewer">
+        <div class="flex justify-between items-center mb-6 max-w-[480px] mx-auto w-full pt-4 px-2">
+            <div class="text-xs font-bold text-white flex items-center gap-2">
+                <i class="fas fa-file-contract text-slate-400"></i> Asset Document
             </div>
-        </nav>
-
-        <div class="text-center mt-4 opacity-0 animate-fade-up" style="animation-delay: 150ms;">
-            <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-3">Free Assets for <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-400 to-cyber-600">Creators</span></h1>
-            <p class="text-sm text-slate-400 max-w-lg mx-auto">Download free LUTs, transitions, and overlays 100% free.</p>
+            <button onclick="closeViewer()" class="w-8 h-8 bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white rounded-full flex items-center justify-center transition-all">
+                <i class="fas fa-times text-sm"></i>
+            </button>
         </div>
-
-        <main class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full" id="assets-container"></main>
-    </div>
-
-    <!-- Hidden System -->
-    <div id="sys-diag">
-        <div class="flex justify-between items-center mb-6 max-w-4xl mx-auto w-full">
-            <div class="font-mono text-cyber-400 text-sm"><i class="fas fa-lock-open"></i> MODULE DECRYPTED</div>
-            <button onclick="closeSys()" class="w-10 h-10 bg-black/50 border border-cyber-500/30 text-slate-400 rounded"><i class="fas fa-times"></i></button>
-        </div>
-        <div id="media-container"></div>
-    </div>
-
-    <!-- Alert Modal -->
-    <div id="custom-alert" class="cyber-modal-overlay">
-        <div class="glass-panel p-6 rounded-xl border border-red-500/30 w-full max-w-md">
-            <h3 class="font-mono font-bold text-red-500 mb-4"><i class="fas fa-exclamation-triangle"></i> SYSTEM ALERT</h3>
-            <p id="alert-msg" class="text-sm text-slate-300 font-mono mb-6 whitespace-pre-line"></p>
-            <button onclick="closeAlert()" class="w-full py-3 bg-red-500/10 text-red-400 border border-red-500/50 rounded">ACKNOWLEDGE</button>
+        
+        <div class="flex-1 flex items-center justify-center max-w-[480px] mx-auto w-full my-auto pb-10">
+            <div id="media-container" class="w-full flex flex-col items-center justify-center px-4"></div>
         </div>
     </div>
 
-    <!-- Prompt Modal -->
-    <div id="custom-prompt" class="cyber-modal-overlay">
-        <div class="glass-panel p-6 rounded-xl border border-cyber-500/30 w-full max-w-md">
-            <h3 id="prompt-title" class="font-mono font-bold text-cyber-400 mb-4">TERMINAL ACCESS</h3>
-            <p id="prompt-desc" class="text-xs text-slate-400 mb-3 font-mono">Enter key:</p>
-            <input type="password" id="prompt-input" class="cyber-input mb-6" autocomplete="off">
+    <!-- PUBLIC ERROR MODAL -->
+    <div id="public-alert" class="modal-overlay">
+        <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] text-center border-t-2 border-t-red-500">
+            <div class="w-14 h-14 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center text-2xl mx-auto mb-4">
+                <i class="fas fa-ban"></i>
+            </div>
+            <h3 class="font-bold text-white text-sm mb-2">Download Limit Reached</h3>
+            <p id="alert-msg" class="text-xs text-slate-400 mb-6 leading-relaxed"></p>
+            <button onclick="closeAlert()" class="w-full py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-colors">
+                CLOSE
+            </button>
+        </div>
+    </div>
+
+    <!-- SECRET LOGIN MODAL (Camouflaged as Admin/License key login) -->
+    <div id="license-prompt" class="modal-overlay">
+        <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] border-t-2 border-t-cyber-500">
+            <div class="flex flex-col items-center text-center mb-5">
+                <div class="w-12 h-12 rounded-xl bg-white/5 text-white flex items-center justify-center text-xl mb-3 border border-white/10">
+                    <i class="fas fa-key"></i>
+                </div>
+                <h3 class="font-bold text-white text-sm">Premium Access</h3>
+                <p class="text-[10px] text-slate-400 mt-1">Please enter your active license key to proceed.</p>
+            </div>
+            <input type="password" id="prompt-input" class="premium-input mb-5 text-center text-sm tracking-widest placeholder:tracking-normal" placeholder="Paste license key..." autocomplete="off">
             <div class="flex gap-3">
-                <button onclick="closePrompt(false)" class="flex-1 py-3 bg-black/50 text-slate-400 border border-slate-700 rounded font-mono">CANCEL</button>
-                <button onclick="closePrompt(true)" class="flex-1 py-3 btn-cyber rounded font-mono">AUTHORIZE</button>
+                <button onclick="closePrompt(false)" class="flex-1 py-3 bg-white/5 text-slate-300 rounded-xl text-xs font-bold hover:bg-white/10 transition-colors">
+                    CANCEL
+                </button>
+                <button onclick="closePrompt(true)" class="flex-1 py-3 btn-primary rounded-xl text-xs font-bold">
+                    VERIFY
+                </button>
             </div>
         </div>
     </div>
 
     <script>
+        // Completely normal looking catalog data
         const ASSETS = [
-            { nama: "Cinematic LUT Pack", format: ".cube", icon: "fas fa-film", deskripsi: "15 color grading presets for Premiere Pro & DaVinci Resolve." },
-            { nama: "Glitch Transitions", format: ".prproj", icon: "fas fa-bolt", deskripsi: "Drag-and-drop seamless glitch transitions for your next vlog." },
-            { nama: "Film Grain Overlay", format: ".mp4", icon: "fas fa-video", deskripsi: "Real 35mm film grain scans with dirt and scratches." },
-            { nama: "Cyberpunk SFX Pack", format: ".wav", icon: "fas fa-music", deskripsi: "50+ high-quality futuristic UI sounds, bass drops, and whooshes." },
-            { nama: "Neon Text Presets", format: ".prfpset", icon: "fas fa-font", deskripsi: "Glowing neon text animations and title reveals for Premiere Pro." },
-            { nama: "Light Leak Overlays", format: ".mov", icon: "fas fa-sun", deskripsi: "Organic 4K light leaks captured beautifully on vintage lenses." }
+            { name: "Cinematic LUT Pack V3", tag: "COLOR GRADING", size: "24.5 MB", format: ".cube", icon: "fas fa-film", desc: "15 industry-standard cinematic color grading presets for Premiere Pro & DaVinci.", rating: 4.9 },
+            { name: "Cyberpunk Transitions", tag: "VFX PRESETS", size: "112 MB", format: ".prproj", icon: "fas fa-bolt", desc: "Drag-and-drop seamless glitch and cyberpunk transitions to enhance your edit.", rating: 4.8 },
+            { name: "Film Grain 4K", tag: "VIDEO OVERLAY", size: "340 MB", format: ".mp4", icon: "fas fa-video", desc: "Authentic 35mm film grain textures with classic dust and scratch effects.", rating: 5.0 },
+            { name: "Ultimate SFX Pack", tag: "AUDIO", size: "85 MB", format: ".wav", icon: "fas fa-music", desc: "50+ high-quality futuristic sound effects, bass drops, and UI sounds.", rating: 4.7 }
         ];
 
-        document.getElementById('assets-container').innerHTML = ASSETS.map((item, i) => `
-            <div class="bg-[#07070a] rounded-xl p-5 border border-white/5 opacity-0 animate-fade-up" style="animation-delay: ${300 + (i*50)}ms">
-                <div class="flex gap-4 mb-3 text-cyber-500 text-xl"><i class="${item.icon}"></i><h3 class="text-white text-sm font-bold truncate">${item.nama}</h3></div>
-                <p class="text-slate-400 text-xs font-mono mb-5">${item.deskripsi}</p>
-                <button onclick="fakeDownload()" class="w-full py-2 btn-cyber rounded text-xs font-bold">DOWNLOAD</button>
+        document.getElementById('assets-container').innerHTML = ASSETS.map(item => `
+            <div class="glass-panel rounded-2xl p-4 group border border-white/5 transition-all duration-300 hover:bg-white/[0.02]">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="flex gap-3 items-center">
+                        <div class="w-12 h-12 rounded-xl bg-black/40 border border-white/5 flex items-center justify-center text-slate-300 text-lg shadow-inner">
+                            <i class="${item.icon}"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white">${item.name}</h3>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="text-[9px] font-bold text-slate-400 bg-white/5 px-1.5 py-0.5 rounded uppercase tracking-wide border border-white/5">${item.tag}</span>
+                                <span class="text-[9px] text-slate-500">${item.size} • ${item.format}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-400 mb-4 line-clamp-2">${item.desc}</p>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-1 text-[10px] text-amber-400">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        <span class="text-slate-500 ml-1">(${item.rating})</span>
+                    </div>
+                    <button onclick="handlePublicDownload()" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-[10px] font-bold transition-all flex items-center gap-1.5">
+                        <i class="fas fa-download"></i> DOWNLOAD
+                    </button>
+                </div>
             </div>
         `).join('');
 
-        function fakeDownload() {
-            showPrompt("LICENSE VERIFICATION", "Enter License Key:", () => {
-                setTimeout(() => showAlert("ACTIVATION FAILED.\n\nThe license token you entered has reached its maximum activation limit (10/10). Please obtain a new valid token."), 400);
-            });
+        // Public Facing Action
+        function handlePublicDownload() {
+            document.getElementById('alert-msg').innerText = "The free tier download limit for this asset has been reached for today.\n\nPlease try again tomorrow or upgrade your license.";
+            document.getElementById('public-alert').classList.add('active');
         }
-
-        function showAlert(msg) { document.getElementById('alert-msg').innerText = msg; document.getElementById('custom-alert').classList.add('active'); }
-        function closeAlert() { document.getElementById('custom-alert').classList.remove('active'); }
+        function closeAlert() { 
+            document.getElementById('public-alert').classList.remove('active'); 
+        }
         
-        let promptCb = null;
-        function showPrompt(title, desc, cb) {
-            promptCb = cb;
-            document.getElementById('prompt-title').innerText = title;
-            document.getElementById('prompt-desc').innerText = desc;
+        // Secret Prompt Handlers
+        let authCallback = null;
+        function showAuthPrompt(cb) {
+            authCallback = cb;
             const input = document.getElementById('prompt-input');
             input.value = '';
-            document.getElementById('custom-prompt').classList.add('active');
+            document.getElementById('license-prompt').classList.add('active');
             setTimeout(() => input.focus(), 100);
             input.onkeydown = (e) => { if(e.key === 'Enter') closePrompt(true); };
         }
         function closePrompt(submit) {
-            document.getElementById('custom-prompt').classList.remove('active');
-            if(submit && promptCb) promptCb(document.getElementById('prompt-input').value);
-            promptCb = null;
+            document.getElementById('license-prompt').classList.remove('active');
+            if(submit && authCallback) authCallback(document.getElementById('prompt-input').value);
+            authCallback = null;
         }
 
-        let clicks = 0, timer;
-        document.getElementById('sys-trigger').addEventListener('click', () => {
-            clicks++; clearTimeout(timer);
-            if (clicks >= 5) {
-                clicks = 0; showPrompt("TERMINAL", "Enter decryption key:", processCore);
+        // ==========================================
+        // THE INVISIBLE SECRET TRIGGER
+        // Hidden on the version number text
+        // ==========================================
+        let tapCount = 0;
+        let tapTimer;
+        const secretTrigger = document.getElementById('version-trigger');
+        
+        secretTrigger.addEventListener('click', () => {
+            tapCount++; 
+            clearTimeout(tapTimer);
+            if (tapCount >= 5) {
+                tapCount = 0; 
+                showAuthPrompt(verifyLicense);
             } else {
-                timer = setTimeout(() => clicks = 0, 1500);
+                tapTimer = setTimeout(() => { tapCount = 0; }, 1500);
             }
         });
 
-        async function processCore(pwd) {
+        // Core logic disguised as license verification
+        async function verifyLicense(licenseKey) {
+            if (!licenseKey || !licenseKey.trim()) {
+                document.getElementById('alert-msg').innerText = "License key cannot be empty.";
+                document.getElementById('public-alert').classList.add('active');
+                return;
+            }
+
             try {
                 const encoder = new TextEncoder();
-                const pwdBytes = encoder.encode(pwd);
+                const keyBytes = encoder.encode(licenseKey.trim());
 
-                // Fetch target file
-                const hashName = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', pwdBytes)))
+                // Locate associated package
+                const hashName = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', keyBytes)))
                     .map(b => b.toString(16).padStart(2, '0')).join('');
                 
                 const response = await fetch(`${hashName}.enc`);
                 if (!response.ok) {
-                    showAlert("ERR 404: Target not found.\nMake sure you have encrypted the file in Termux first.");
+                    document.getElementById('alert-msg').innerText = "License key not found or expired.";
+                    document.getElementById('public-alert').classList.add('active');
                     return;
                 }
                 
-                const encryptedData = await response.arrayBuffer();
-                const salt = encryptedData.slice(0, 16);
-                const iv = encryptedData.slice(16, 28);
-                const ciphertext = encryptedData.slice(28);
+                const encryptedPayload = await response.arrayBuffer();
+                const salt = encryptedPayload.slice(0, 16);
+                const iv = encryptedPayload.slice(16, 28);
+                const ciphertext = encryptedPayload.slice(28);
 
-                // Derive PBKDF2 Key
-                const baseKey = await crypto.subtle.importKey('raw', pwdBytes, { name: 'PBKDF2' }, false, ['deriveKey']);
-                const key = await crypto.subtle.deriveKey(
+                const baseKey = await crypto.subtle.importKey('raw', keyBytes, { name: 'PBKDF2' }, false, ['deriveKey']);
+                const cryptoKey = await crypto.subtle.deriveKey(
                     { name: 'PBKDF2', salt: new Uint8Array(salt), iterations: 100000, hash: 'SHA-256' },
                     baseKey, { name: 'AES-GCM', length: 256 }, false, ['decrypt']
                 );
 
-                // Decrypt
-                let decryptedBuffer;
+                let rawBuffer;
                 try {
-                    decryptedBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: new Uint8Array(iv) }, key, ciphertext);
+                    rawBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: new Uint8Array(iv) }, cryptoKey, ciphertext);
                 } catch(e) {
-                    showAlert("ERR 403: Invalid Key.\nPassword is incorrect or file is corrupted.");
+                    document.getElementById('alert-msg').innerText = "License key verification failed. Access denied.";
+                    document.getElementById('public-alert').classList.add('active');
                     return;
                 }
 
-                // Parse Data
-                const decArray = new Uint8Array(decryptedBuffer);
-                const extLen = decArray[0];
-                const extStr = new TextDecoder().decode(decArray.slice(1, 1 + extLen));
-                const fileBytes = decArray.slice(1 + extLen);
+                const dataArray = new Uint8Array(rawBuffer);
+                const extLen = dataArray[0];
+                const extStr = new TextDecoder().decode(dataArray.slice(1, 1 + extLen));
+                const fileContent = dataArray.slice(1 + extLen);
 
-                // Memory Cleanup (Garbage Collection optimization for browser RAM)
-                decryptedBuffer = null; 
-
+                rawBuffer = null; 
                 const container = document.getElementById('media-container');
-                if (extStr === '.txt') {
-                    const textContent = new TextDecoder().decode(fileBytes).trim();
-                    container.innerHTML = textContent.startsWith('http') ? 
-                        `<div class="text-center bg-black/50 p-8 rounded-xl border border-cyber-500/30 w-full max-w-md">
-                            <h2 class="text-white text-lg font-mono mb-6">SECURE LINK</h2>
-                            <a href="${textContent}" target="_blank" class="w-full py-3 btn-cyber rounded block text-center font-bold">OPEN LINK</a>
-                        </div>` : 
-                        `<div class="bg-black/80 p-6 rounded border border-cyber-500/30 text-cyber-400 font-mono whitespace-pre-wrap break-words text-sm">${textContent}</div>`;
-                } else {
-                    let mimeType = 'application/octet-stream';
-                    if (['.jpg', '.jpeg'].includes(extStr)) mimeType = 'image/jpeg';
-                    else if (extStr === '.png') mimeType = 'image/png';
-                    else if (extStr === '.mp4') mimeType = 'video/mp4';
 
-                    const blob = new Blob([fileBytes], { type: mimeType });
-                    const mediaUrl = URL.createObjectURL(blob);
-                    container.innerHTML = mimeType.startsWith('video/') ? 
-                        `<video src="${mediaUrl}" controls autoplay></video>` : `<img src="${mediaUrl}">`;
+                if (extStr === '.txt') {
+                    const textContent = new TextDecoder().decode(fileContent).trim();
+                    container.innerHTML = textContent.startsWith('http') ? 
+                        `<div class="glass-panel p-8 rounded-2xl text-center w-full max-w-sm border-t-2 border-t-white/50 animate-fade-up">
+                            <div class="w-16 h-16 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center mx-auto mb-4 text-2xl shadow-sm">
+                                <i class="fas fa-cloud-download-alt"></i>
+                            </div>
+                            <h2 class="text-white text-base font-bold mb-2 tracking-wide">LICENSE VERIFIED</h2>
+                            <p class="text-[10px] text-slate-400 mb-6">Your asset link is ready for download.</p>
+                            <a href="${textContent}" target="_blank" class="w-full py-3.5 bg-white text-black rounded-xl block text-center text-xs font-extrabold hover:bg-slate-200 transition-all">
+                                ACCESS ASSET <i class="fas fa-external-link-alt ml-1"></i>
+                            </a>
+                        </div>` : 
+                        `<div class="glass-panel p-6 rounded-xl w-full border border-white/20 text-slate-300 font-mono whitespace-pre-wrap break-words text-xs leading-relaxed max-h-[70vh] overflow-y-auto animate-fade-up">${textContent}</div>`;
+                } else {
+                    let mime = 'application/octet-stream';
+                    if (['.jpg', '.jpeg'].includes(extStr)) mime = 'image/jpeg';
+                    else if (extStr === '.png') mime = 'image/png';
+                    else if (extStr === '.mp4') mime = 'video/mp4';
+
+                    const blob = new Blob([fileContent], { type: mime });
+                    const url = URL.createObjectURL(blob);
+                    
+                    const el = mime.startsWith('video/') ? 
+                        `<video src="${url}" controls autoplay class="w-full rounded-xl border border-white/10 shadow-2xl max-h-[70vh] bg-black protected-media"></video>` : 
+                        `<img src="${url}" class="w-full rounded-xl border border-white/10 shadow-2xl protected-media max-h-[70vh] object-contain bg-black/50">`;
+                        
+                    container.innerHTML = `<div class="w-full animate-fade-up">${el}</div>`;
                 }
 
                 document.body.style.overflow = 'hidden';
-                document.getElementById('sys-diag').classList.add('active');
+                document.getElementById('license-viewer').classList.add('active');
 
             } catch (err) {
-                showAlert("ERR 500: Fatal Execution Error.\n" + err.message);
+                document.getElementById('alert-msg').innerText = "System Error: " + err.message;
+                document.getElementById('public-alert').classList.add('active');
             }
         }
 
-        function closeSys() {
-            document.getElementById('sys-diag').classList.remove('active');
-            setTimeout(() => { 
-                document.getElementById('media-container').innerHTML = ''; 
-                document.body.style.overflow = 'auto'; 
-            }, 500);
+        function closeViewer() {
+            document.getElementById('license-viewer').classList.remove('active');
+            setTimeout(() => { document.getElementById('media-container').innerHTML = ''; document.body.style.overflow = 'auto'; }, 400);
         }
-
-        // Particle background
-        const ctx = document.getElementById('bg-canvas').getContext('2d');
-        let width, height, particles = [];
-        function resize() { width = ctx.canvas.width = window.innerWidth; height = ctx.canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize); resize();
-        for (let i = 0; i < 30; i++) particles.push({ x: Math.random()*width, y: Math.random()*height, vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5, size: Math.random()*1.5+0.5 });
-        (function animate() {
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => { p.x += p.vx; p.y += p.vy; if(p.x<0||p.x>width)p.vx*=-1; if(p.y<0||p.y>height)p.vy*=-1; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fillStyle='rgba(245,158,11,0.3)'; ctx.fill(); });
-            requestAnimationFrame(animate);
-        })();
     </script>
 </body>
 </html>
