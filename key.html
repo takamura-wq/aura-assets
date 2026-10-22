@@ -142,6 +142,11 @@
                 // Kurangi kecepatan animasi sedikit untuk teks yang sangat panjang 
                 iterations += 1/2; 
                 
+                // Fitur Auto-Scroll: mengikuti progress huruf yang sedang dipecahkan
+                const maxScroll = Math.max(0, tokenContainer.scrollHeight - tokenContainer.clientHeight);
+                const progressPercentage = iterations / maxIterations;
+                tokenContainer.scrollTop = progressPercentage * maxScroll;
+                
                 if (iterations >= maxIterations) {
                     clearInterval(interval);
                     tokenDisplay.innerText = targetText;
