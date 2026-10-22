@@ -16,16 +16,14 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
-                    colors: { cyber: { 400: '#facc15', 500: '#f59e0b', dark: '#030305' } },
+                    colors: { cyber: { 400: '#c084fc', 500: '#a855f7', 600: '#9333ea', dark: '#030305' } },
                     animation: { 
                         'fade-up': 'fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                         'scan': 'scan 2.5s ease-in-out infinite alternate',
-                        'pulse-glow': 'pulseGlow 2s infinite'
                     },
                     keyframes: {
                         fadeUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
                         scan: { '0%': { top: '0%' }, '100%': { top: '100%' } },
-                        pulseGlow: { '0%, 100%': { opacity: 1 }, '50%': { opacity: 0.5 } }
                     }
                 }
             }
@@ -42,22 +40,22 @@
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+        ::-webkit-scrollbar-thumb { background: rgba(168,85,247,0.3); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(168,85,247,0.6); }
 
         /* Token Display Area */
         .token-display { background: rgba(0, 0, 0, 0.6); position: relative; overflow-x: hidden; overflow-y: auto; border: 1px solid rgba(255,255,255,0.05); }
-        .token-display.valid { border-color: rgba(245, 158, 11, 0.3); color: #facc15; box-shadow: inset 0 0 30px rgba(245, 158, 11, 0.05); }
+        .token-display.valid { border-color: rgba(168, 85, 247, 0.4); color: #c084fc; box-shadow: inset 0 0 30px rgba(168, 85, 247, 0.1); }
         .token-display.invalid { border-color: rgba(239, 68, 68, 0.3); color: #ef4444; box-shadow: inset 0 0 30px rgba(239, 68, 68, 0.05); }
         
         /* Laser Scanline */
-        .laser { position: absolute; left: 0; right: 0; height: 2px; background: #facc15; box-shadow: 0 0 10px #facc15, 0 0 20px #facc15; z-index: 10; pointer-events: none; opacity: 0; transition: opacity 0.3s, background 0.3s, box-shadow 0.3s; }
+        .laser { position: absolute; left: 0; right: 0; height: 2px; background: #c084fc; box-shadow: 0 0 10px #c084fc, 0 0 20px #c084fc; z-index: 10; pointer-events: none; opacity: 0; transition: opacity 0.3s, background 0.3s, box-shadow 0.3s; }
         .token-display.valid .laser { opacity: 0.7; }
         .token-display.invalid .laser { opacity: 0.7; background: #ef4444; box-shadow: 0 0 10px #ef4444, 0 0 20px #ef4444; }
 
         /* Buttons */
-        .btn-primary { background: linear-gradient(135deg, #f59e0b, #facc15); color: #000; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2); transition: all 0.3s; }
-        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); filter: brightness(1.1); }
+        .btn-primary { background: linear-gradient(135deg, #9333ea, #c084fc); color: #ffffff; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.25); transition: all 0.3s; }
+        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5); filter: brightness(1.1); }
         .btn-primary:active:not(:disabled) { transform: translateY(1px) scale(0.98); }
         .btn-primary:disabled { opacity: 0.5; filter: grayscale(1); cursor: not-allowed; }
         
@@ -65,7 +63,7 @@
         .btn-secondary:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
 
         /* Toast Animation */
-        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: #facc15; color: #000; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 30px rgba(245,158,11,0.3); transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 100; }
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: #a855f7; color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4); transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 100; }
         .toast.show { bottom: 40px; }
     </style>
 </head>
@@ -75,7 +73,6 @@
 
     <main class="w-full max-w-[400px] m-auto glass-card rounded-2xl p-8 z-10 animate-fade-up">
         
-        <!-- Header -->
         <div class="text-center mb-8">
             <div id="icon-box" class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/5 border border-white/10 mb-5 text-white shadow-sm transition-all duration-500">
                 <i class="fas fa-fingerprint text-2xl"></i>
@@ -84,13 +81,11 @@
             <p id="status-text" class="text-[10px] text-slate-400 mt-2 font-mono">GENERATING SECURE TOKEN...</p>
         </div>
         
-        <!-- Token Display -->
         <div id="tokenContainer" class="token-display rounded-xl text-center text-[1rem] leading-tight md:text-xl font-black tracking-wider p-4 mb-8 min-h-[80px] max-h-[250px] flex flex-col break-all">
             <div class="laser animate-scan"></div>
             <span id="tokenText" class="relative z-20 font-mono text-slate-500 m-auto">INITIATING...</span>
         </div>
         
-        <!-- Actions -->
         <div class="flex flex-col gap-3">
             <button id="copyBtn" onclick="copyToken()" disabled class="btn-primary w-full py-3.5 rounded-xl text-xs font-extrabold tracking-widest flex items-center justify-center gap-2">
                 <i class="fas fa-copy"></i> COPY KEY
@@ -107,19 +102,13 @@
     </div>
 
     <script>
-        // Ambil keseluruhan URL mentah untuk menangkap simbol "#" (hash) dan "&"
         let token = null;
         const fullUrl = window.location.href;
         const codeMatch = fullUrl.match(/[?&]code=([^]*)/);
         
         if (codeMatch && codeMatch[1]) {
             token = codeMatch[1];
-            try {
-                // Decode teks jika URL di-encode oleh browser, abaikan jika gagal
-                token = decodeURIComponent(token);
-            } catch(e) {
-                console.warn("Teks dibiarkan mentah karena mengandung karakter acak", e);
-            }
+            try { token = decodeURIComponent(token); } catch(e) {}
         }
         
         const tokenDisplay = document.getElementById('tokenText');
@@ -133,9 +122,6 @@
         function runDecryption(targetText, isError = false) {
             let iterations = 0;
             const maxIterations = targetText.length;
-            
-            // Kecepatan dinamis (Aesthetic): 
-            // Teks pendek selesai dlm ~1 detik, teks sangat panjang selesai dlm ~2 detik
             const speedStep = Math.max(0.3, maxIterations / 100);
             
             const interval = setInterval(() => {
@@ -144,10 +130,8 @@
                     return chars[Math.floor(Math.random() * chars.length)];
                 }).join('');
                 
-                // Menggunakan kecepatan dinamis
                 iterations += speedStep; 
                 
-                // Fitur Auto-Scroll: mengikuti progress huruf yang sedang dipecahkan
                 const maxScroll = Math.max(0, tokenContainer.scrollHeight - tokenContainer.clientHeight);
                 const progressPercentage = iterations / maxIterations;
                 tokenContainer.scrollTop = progressPercentage * maxScroll;
@@ -181,22 +165,16 @@
 
         window.onload = () => {
             setTimeout(() => {
-                if (token && token.trim() !== '') {
-                    runDecryption(token);
-                } else {
-                    runDecryption("ERR_NO_TOKEN", true);
-                }
+                if (token && token.trim() !== '') { runDecryption(token); } 
+                else { runDecryption("ERR_NO_TOKEN", true); }
             }, 600); 
         };
 
         function copyToken() {
             if (!token || copyBtn.disabled) return;
-            
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(token).then(showToast).catch(fallbackCopy);
-            } else {
-                fallbackCopy();
-            }
+            } else { fallbackCopy(); }
         }
         
         function fallbackCopy() {
@@ -204,19 +182,13 @@
             textArea.value = token;
             document.body.appendChild(textArea);
             textArea.select();
-            try {
-                document.execCommand('copy');
-                showToast();
-            } catch (err) {
-                console.error('Copy failed', err);
-            }
+            try { document.execCommand('copy'); showToast(); } catch (err) {}
             document.body.removeChild(textArea);
         }
 
         function showToast() {
             const toast = document.getElementById('toastBox');
             toast.classList.add('show');
-            
             const originalBtn = copyBtn.innerHTML;
             copyBtn.innerHTML = '<i class="fas fa-check"></i> COPIED!';
             copyBtn.classList.add('bg-white', 'text-black');
