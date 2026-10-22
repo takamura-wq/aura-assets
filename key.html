@@ -79,7 +79,7 @@
         </div>
         
         <!-- Token Display -->
-        <div id="tokenContainer" class="token-display rounded-xl text-center text-xl md:text-2xl font-black tracking-widest mb-8 min-h-[80px] flex items-center justify-center break-all">
+        <div id="tokenContainer" class="token-display rounded-xl text-center text-lg md:text-xl font-black tracking-wider mb-8 min-h-[80px] p-4 flex items-center justify-center break-all">
             <div class="laser animate-scan"></div>
             <span id="tokenText" class="relative z-20 font-mono text-slate-500">INITIATING...</span>
         </div>
@@ -101,8 +101,21 @@
     </div>
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('code');
+        // Custom extraction logic to bypass URLSearchParams cutting the string off at the '&' symbol.
+        let token = null;
+        const searchStr = window.location.search;
+        
+        if (searchStr.includes('code=')) {
+            // We split the string right after `code=` and grab everything, capturing unencoded special characters
+            token = searchStr.substring(searchStr.indexOf('code=') + 5);
+            try {
+                // Try decoding it if it was safely URL-encoded
+                token = decodeURIComponent(token);
+            } catch(e) {
+                // If decoding fails, we keep the raw string
+                console.warn("Could not decode, keeping raw token.");
+            }
+        }
         
         const tokenDisplay = document.getElementById('tokenText');
         const tokenContainer = document.getElementById('tokenContainer');
