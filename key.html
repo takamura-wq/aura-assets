@@ -33,9 +33,13 @@
     <style>
         body { background-color: #030305; color: #e2e8f0; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; overflow-y: auto; margin: 0; padding: 40px 20px; }
         
+        /* OPTIMASI: Menambahkan cahaya orb yang sama dengan web utama tapi statis */
+        .bg-orb-center { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 60%); z-index: -2; pointer-events: none; }
+        
         .bg-grid { position: fixed; inset: 0; background-size: 50px 50px; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px); mask-image: radial-gradient(circle at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%); z-index: -1; }
 
-        .glass-card { background: rgba(10, 10, 14, 0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05); position: relative; }
+        /* OPTIMASI: Mengurangi intensitas blur dari 24px ke 12px agar rendering GPU ringan */
+        .glass-card { background: rgba(10, 10, 14, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05); position: relative; }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
@@ -44,7 +48,7 @@
         ::-webkit-scrollbar-thumb:hover { background: rgba(168,85,247,0.6); }
 
         /* Token Display Area */
-        .token-display { background: rgba(0, 0, 0, 0.6); position: relative; overflow-x: hidden; overflow-y: auto; border: 1px solid rgba(255,255,255,0.05); }
+        .token-display { background: rgba(0, 0, 0, 0.6); position: relative; overflow-x: hidden; overflow-y: auto; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; }
         .token-display.valid { border-color: rgba(168, 85, 247, 0.4); color: #c084fc; box-shadow: inset 0 0 30px rgba(168, 85, 247, 0.1); }
         .token-display.invalid { border-color: rgba(239, 68, 68, 0.3); color: #ef4444; box-shadow: inset 0 0 30px rgba(239, 68, 68, 0.05); }
         
@@ -69,6 +73,8 @@
 </head>
 <body>
 
+    <!-- Menambahkan background orb statis untuk konsistensi tema -->
+    <div class="bg-orb-center"></div>
     <div class="bg-grid"></div>
 
     <main class="w-full max-w-[400px] m-auto glass-card rounded-2xl p-8 z-10 animate-fade-up">
@@ -91,7 +97,8 @@
                 <i class="fas fa-copy"></i> COPY KEY
             </button>
             
-            <a href="https://aura-assets-nine.vercel.app/" class="btn-secondary w-full py-3.5 rounded-xl text-xs font-bold text-slate-300 flex items-center justify-center gap-2">
+            <!-- OPTIMASI: URL dinamis menggunakan root agar tidak bergantung pada link Vercel lama -->
+            <a href="/" class="btn-secondary w-full py-3.5 rounded-xl text-xs font-bold text-slate-300 flex items-center justify-center gap-2">
                 <i class="fas fa-home"></i> RETURN TO STUDIO
             </a>
         </div>
