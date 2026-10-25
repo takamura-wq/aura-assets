@@ -33,26 +33,28 @@
     <style>
         body { background-color: #030305; color: #e2e8f0; min-height: 100vh; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         
-        .bg-orb-1 { position: fixed; top: -10%; left: -20%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%); filter: blur(40px); z-index: -2; pointer-events: none; }
-        .bg-orb-2 { position: fixed; bottom: -10%; right: -10%; width: 40vw; height: 40vw; background: radial-gradient(circle, rgba(147, 51, 234, 0.1) 0%, transparent 70%); filter: blur(40px); z-index: -2; pointer-events: none; }
+        /* OPTIMASI: Menghapus filter: blur(40px) dan menggantinya dengan gradien yang sudah halus secara natural */
+        .bg-orb-1 { position: fixed; top: -10%; left: -20%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(168, 85, 247, 0.02) 40%, transparent 70%); z-index: -2; pointer-events: none; }
+        .bg-orb-2 { position: fixed; bottom: -10%; right: -10%; width: 40vw; height: 40vw; background: radial-gradient(circle, rgba(147, 51, 234, 0.08) 0%, rgba(147, 51, 234, 0.02) 40%, transparent 70%); z-index: -2; pointer-events: none; }
         .bg-grid { position: fixed; inset: 0; background-size: 40px 40px; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px); z-index: -3; mask-image: linear-gradient(to bottom, black 40%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%); }
 
-        .glass-panel { background: rgba(10, 10, 15, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); position: relative; overflow: hidden; }
-        .glass-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent); }
+        /* OPTIMASI: Mengurangi intensitas blur dari 20px ke 8px, dan menebalkan warna background agar tetap terlihat seperti kaca */
+        .glass-panel { background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); position: relative; overflow: hidden; }
+        .glass-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); }
 
+        /* Styles khusus brankas rahasia */
         .btn-primary { background: linear-gradient(135deg, #9333ea, #c084fc); color: #ffffff; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.25); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5); filter: brightness(1.1); }
         .btn-primary:active { transform: translateY(1px) scale(0.98); }
+        .premium-input { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 12px 14px; width: 100%; border-radius: 10px; font-family: 'JetBrains Mono', monospace; outline: none; transition: all 0.3s; }
+        .premium-input:focus { border-color: #a855f7; background: rgba(168, 85, 247, 0.05); }
 
         .modal-overlay { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content { transform: scale(0.95); opacity: 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
 
-        .premium-input { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 12px 14px; width: 100%; border-radius: 10px; font-family: 'JetBrains Mono', monospace; outline: none; transition: all 0.3s; }
-        .premium-input:focus { border-color: #a855f7; background: rgba(168, 85, 247, 0.05); }
-
-        #license-viewer { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.98); backdrop-filter: blur(30px); z-index: 90; display: flex; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; overflow-y: auto; padding: 16px; }
+        #license-viewer { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.98); backdrop-filter: blur(30px); z-index: 105; display: flex; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; overflow-y: auto; padding: 16px; }
         #license-viewer.active { opacity: 1; pointer-events: auto; }
         .protected-media { pointer-events: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-user-drag: none; }
 
@@ -63,11 +65,13 @@
 </head>
 
 <body class="flex justify-center">
-    <div class="bg-orb-1 animate-float"></div>
-    <div class="bg-orb-2 animate-float" style="animation-delay: -3s;"></div>
+    <!-- OPTIMASI: Menghilangkan class 'animate-float' agar background tidak perlu di-render ulang setiap frame -->
+    <div class="bg-orb-1"></div>
+    <div class="bg-orb-2"></div>
     <div class="bg-grid"></div>
 
-    <div class="w-full max-w-[480px] min-h-screen bg-cyber-dark/40 backdrop-blur-xl border-x border-white/5 relative z-10 flex flex-col shadow-[0_0_80px_rgba(0,0,0,0.8)]">
+    <!-- OPTIMASI: Mengganti backdrop-blur-xl menjadi backdrop-blur-md -->
+    <div class="w-full max-w-[480px] min-h-screen bg-cyber-dark/60 backdrop-blur-md border-x border-white/5 relative z-10 flex flex-col shadow-[0_0_80px_rgba(0,0,0,0.8)]">
         
         <header class="sticky top-0 z-50 bg-cyber-dark/80 backdrop-blur-md border-b border-white/5 px-5 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -80,27 +84,38 @@
                 </div>
             </div>
             
-            <a href="portal.html" class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[10px] font-bold text-white transition-all flex items-center gap-2 group">
-                <i class="fas fa-question-circle text-slate-400 group-hover:text-white transition-colors"></i> HELP
-            </a>
+            <div class="flex items-center gap-2">
+                <div id="header-user-section">
+                    <button onclick="openLoginModal()" class="px-4 py-2 bg-cyber-500/10 hover:bg-cyber-500/20 border border-cyber-500/30 rounded-lg text-[10px] font-bold text-cyber-400 transition-all flex items-center gap-2">
+                        <i class="fas fa-user-astronaut"></i> LOGIN
+                    </button>
+                </div>
+                <a href="#" class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[10px] font-bold text-white transition-all hidden sm:flex items-center gap-2 group">
+                    <i class="fas fa-question-circle text-slate-400 group-hover:text-white transition-colors"></i> HELP
+                </a>
+            </div>
         </header>
 
         <div class="p-5 flex flex-col gap-5 pb-10">
             <section class="glass-panel p-5 rounded-2xl border-t border-t-white/10 opacity-0 animate-fade-up">
-                <div class="flex items-center gap-3 mb-3">
+                <div class="flex items-center gap-3 mb-4">
                     <div class="w-8 h-8 rounded-full bg-cyber-500/10 text-cyber-400 flex items-center justify-center border border-cyber-500/20">
                         <i class="fas fa-ticket-alt text-xs"></i>
                     </div>
                     <div>
                         <h3 class="text-xs font-bold text-white">Redeem License Key</h3>
-                        <p class="text-[9px] text-slate-400">Unlock your premium assets here</p>
+                        <p class="text-[9px] text-slate-400">Bind premium assets to your account</p>
                     </div>
                 </div>
-                <div class="flex gap-2">
-                    <input type="text" id="fake-input" placeholder="Paste your key..." class="bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-xs w-full outline-none text-white focus:border-cyber-500/50 font-mono" autocomplete="off">
-                    <button onclick="handleFakeRedeem()" id="fake-btn" class="px-4 py-2 bg-white text-black rounded-lg text-xs font-bold hover:bg-slate-200 transition-colors">
-                        REDEEM
-                    </button>
+                <div class="flex flex-col gap-3">
+                    <input type="email" id="fake-email" placeholder="Account Email (e.g., yourname@gmail.com)" class="bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-xs w-full outline-none text-white focus:border-cyber-500/50 transition-colors">
+                    <div class="flex gap-2">
+                        <input type="text" id="fake-input" placeholder="Paste your key..." class="bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-xs w-full outline-none text-white focus:border-cyber-500/50 font-mono transition-colors" autocomplete="off">
+                        <button onclick="handleFakeRedeem()" id="fake-btn" class="px-6 py-2 bg-white text-black rounded-lg text-xs font-bold hover:bg-slate-200 transition-colors whitespace-nowrap">
+                            REDEEM
+                        </button>
+                    </div>
+                    <p class="text-[9px] text-green-400 mt-1 font-mono flex items-center gap-1"><i class="fas fa-circle text-[6px] animate-pulse"></i> 10/10 Global Uses Remaining</p>
                 </div>
             </section>
 
@@ -149,6 +164,83 @@
         </div>
     </div>
 
+    <!-- Login/Register Modal (Identik dengan simulasi) -->
+    <div id="login-modal" class="modal-overlay">
+        <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[360px] border-t-2 border-t-cyber-400 relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-cyber-500/20 blur-3xl rounded-full"></div>
+            
+            <div class="flex items-center gap-3 mb-6 relative z-10">
+                <div class="w-10 h-10 rounded-xl bg-cyber-500/20 border border-cyber-500/30 flex items-center justify-center text-cyber-400">
+                    <i class="fas fa-fingerprint"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-white text-lg leading-tight">Workspace</h3>
+                    <p class="text-[10px] text-slate-400">Authenticate your session</p>
+                </div>
+                <button onclick="closeLoginModal()" class="text-slate-500 hover:text-white transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="flex gap-4 border-b border-white/10 mb-5 relative z-10">
+                <button onclick="switchAuthTab('login')" id="tab-login" class="text-xs font-bold text-cyber-400 border-b-2 border-cyber-400 pb-2 px-1 transition-all">SIGN IN</button>
+                <button onclick="switchAuthTab('register')" id="tab-register" class="text-xs font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-300 pb-2 px-1 transition-all">REGISTER</button>
+            </div>
+
+            <div class="flex flex-col gap-3 relative z-10">
+                <input type="text" id="reg-name" placeholder="Display Name" class="hidden bg-black/50 border border-white/10 rounded-lg px-3 py-2.5 text-xs w-full outline-none text-white focus:border-cyber-500/50 transition-colors">
+                <input type="email" id="login-email" placeholder="Email Address" class="bg-black/50 border border-white/10 rounded-lg px-3 py-2.5 text-xs w-full outline-none text-white focus:border-cyber-500/50 transition-colors">
+                <input type="password" id="login-pass" placeholder="Password" class="bg-black/50 border border-white/10 rounded-lg px-3 py-2.5 text-xs w-full outline-none text-white focus:border-cyber-500/50 transition-colors">
+                
+                <button onclick="handleFakeLogin()" id="login-btn" class="w-full py-3 mt-2 bg-gradient-to-r from-cyber-600 to-cyber-400 hover:from-cyber-500 hover:to-cyber-400 text-white rounded-xl text-xs font-bold transition-all shadow-[0_0_15px_rgba(168,85,247,0.4)]">
+                    <span id="auth-btn-text">SIGN IN</span> <i class="fas fa-arrow-right ml-1 text-[10px]"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pilihan Download (Identik dengan simulasi) -->
+    <div id="download-modal" class="modal-overlay">
+        <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[360px] border-t-2 border-t-cyber-400">
+            <h3 class="font-bold text-white text-lg mb-1">Download Options</h3>
+            <p class="text-xs text-slate-400 mb-5">Choose your download tier for this asset.</p>
+            
+            <div class="flex flex-col gap-3">
+                <button onclick="handlePublicDownload()" class="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-left group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-500/20 text-slate-400 flex items-center justify-center text-lg group-hover:text-white transition-colors">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold text-white mb-0.5">Standard Download</div>
+                            <div class="text-[10px] text-slate-400">Capped at 500 KB/s • Ad-supported</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-right text-slate-500"></i>
+                </button>
+
+                <button onclick="handlePremiumFailed()" class="flex items-center justify-between p-4 rounded-xl border border-cyber-500/30 bg-cyber-500/10 hover:bg-cyber-500/20 transition-all text-left group relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-cyber-500/0 via-cyber-500/10 to-cyber-500/0 opacity-0 group-hover:opacity-100 transition-opacity translate-x-[-100%] group-hover:translate-x-[100%] duration-1000"></div>
+                    <div class="flex items-center gap-4 relative z-10">
+                        <div class="w-10 h-10 rounded-full bg-cyber-500/20 text-cyber-400 flex items-center justify-center text-lg shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold text-cyber-400 mb-0.5">Premium Download</div>
+                            <div class="text-[10px] text-slate-300">Maximum Speed • No Queue</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-right text-cyber-400 relative z-10"></i>
+                </button>
+            </div>
+            
+            <button onclick="closeDownloadModal()" class="w-full py-3 mt-5 bg-transparent hover:bg-white/5 text-slate-400 rounded-xl text-xs font-bold transition-colors">
+                CANCEL
+            </button>
+        </div>
+    </div>
+
+    <!-- License Viewer Asli untuk File Decrypted -->
     <div id="license-viewer">
         <div class="flex justify-between items-center mb-6 max-w-[480px] mx-auto w-full pt-4 px-2">
             <div class="text-xs font-bold text-white flex items-center gap-2">
@@ -163,7 +255,8 @@
         </div>
     </div>
 
-    <div id="public-alert" class="modal-overlay">
+    <!-- Public Alert -->
+    <div id="public-alert" class="modal-overlay z-[110]">
         <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] text-center border-t-2 border-t-red-500">
             <div class="w-14 h-14 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center text-2xl mx-auto mb-4">
                 <i class="fas fa-ban"></i>
@@ -176,6 +269,7 @@
         </div>
     </div>
 
+    <!-- Secret Vault Prompt (Tersembunyi) -->
     <div id="license-prompt" class="modal-overlay">
         <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] border-t-2 border-t-cyber-500">
             <div class="flex flex-col items-center text-center mb-5">
@@ -198,6 +292,7 @@
     </div>
 
     <script>
+        // --- LOGIC UI & DECOY ---
         const ASSETS = [
             { name: "Cinematic LUT Pack V3", tag: "COLOR GRADING", size: "24.5 MB", format: ".cube", icon: "fas fa-film", desc: "15 industry-standard cinematic color grading presets for Premiere Pro & DaVinci.", rating: 4.9 },
             { name: "Cyberpunk Transitions", tag: "VFX PRESETS", size: "112 MB", format: ".prproj", icon: "fas fa-bolt", desc: "Drag-and-drop seamless glitch and cyberpunk transitions to enhance your edit.", rating: 4.8 },
@@ -227,20 +322,97 @@
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
                         <span class="text-slate-500 ml-1">(${item.rating})</span>
                     </div>
-                    <button onclick="handlePublicDownload()" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-[10px] font-bold transition-all flex items-center gap-1.5">
+                    <button onclick="openDownloadModal()" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-[10px] font-bold transition-all flex items-center gap-1.5">
                         <i class="fas fa-download"></i> DOWNLOAD
                     </button>
                 </div>
             </div>
         `).join('');
 
+        let authMode = 'login';
+        
+        function switchAuthTab(mode) {
+            authMode = mode;
+            const tabLogin = document.getElementById('tab-login');
+            const tabRegister = document.getElementById('tab-register');
+            const nameInput = document.getElementById('reg-name');
+            const btnText = document.getElementById('auth-btn-text');
+            
+            if (mode === 'login') {
+                tabLogin.className = "text-xs font-bold text-cyber-400 border-b-2 border-cyber-400 pb-2 px-1 transition-all";
+                tabRegister.className = "text-xs font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-300 pb-2 px-1 transition-all";
+                nameInput.classList.add('hidden');
+                btnText.innerText = "SIGN IN";
+            } else {
+                tabRegister.className = "text-xs font-bold text-cyber-400 border-b-2 border-cyber-400 pb-2 px-1 transition-all";
+                tabLogin.className = "text-xs font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-300 pb-2 px-1 transition-all";
+                nameInput.classList.remove('hidden');
+                btnText.innerText = "CREATE ACCOUNT";
+            }
+        }
+
+        function openLoginModal() {
+            document.getElementById('login-modal').classList.add('active');
+            setTimeout(() => document.getElementById('login-email').focus(), 100);
+        }
+
+        function closeLoginModal() {
+            document.getElementById('login-modal').classList.remove('active');
+        }
+
+        function handleFakeLogin() {
+            const emailInput = document.getElementById('login-email').value;
+            const passInput = document.getElementById('login-pass').value;
+            const nameInput = document.getElementById('reg-name').value;
+            
+            if (!emailInput.trim() || !passInput.trim()) return;
+            if (authMode === 'register' && !nameInput.trim()) return;
+            
+            const btn = document.getElementById('login-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
+            btn.classList.add('pointer-events-none', 'opacity-75');
+
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('pointer-events-none', 'opacity-75');
+                closeLoginModal();
+                
+                let displayName = authMode === 'register' ? nameInput : emailInput.split('@')[0];
+                if (displayName.length > 10) displayName = displayName.substring(0, 10) + '...';
+                
+                document.getElementById('header-user-section').innerHTML = `
+                    <div class="flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg cursor-pointer hover:bg-white/10 transition-colors shadow-inner">
+                        <div class="w-6 h-6 rounded-md bg-cyber-500/20 border border-cyber-500/30 flex items-center justify-center text-cyber-400 text-[10px] font-bold">
+                            ${displayName.charAt(0).toUpperCase()}
+                        </div>
+                        <span class="text-[10px] font-bold text-white tracking-wide">${displayName}</span>
+                    </div>
+                `;
+                if(document.getElementById('fake-email')) {
+                    document.getElementById('fake-email').value = emailInput;
+                }
+            }, 1200);
+        }
+
+        function openDownloadModal() {
+            document.getElementById('download-modal').classList.add('active');
+        }
+
+        function closeDownloadModal() {
+            document.getElementById('download-modal').classList.remove('active');
+        }
+
         function handleFakeRedeem() {
+            const email = document.getElementById('fake-email').value;
             const input = document.getElementById('fake-input').value;
-            if (!input || !input.trim()) {
-                document.getElementById('alert-msg').innerText = "License key cannot be empty.";
+            
+            if (!email.trim() || !input.trim()) {
+                document.getElementById('alert-msg').innerText = "Please provide both account email and license key.";
                 document.getElementById('public-alert').classList.add('active');
                 return;
             }
+
             const btn = document.getElementById('fake-btn');
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
@@ -249,6 +421,8 @@
             setTimeout(() => {
                 btn.innerHTML = originalText;
                 btn.classList.remove('pointer-events-none', 'opacity-75');
+                
+                // Di web asli (Decoy), SEMUA redeem key akan langsung dianggap Limit atau Expired
                 document.getElementById('alert-msg').innerText = "Activation Failed. This license key has already reached its maximum usage limit or has expired.";
                 document.getElementById('public-alert').classList.add('active');
                 document.getElementById('fake-input').value = '';
@@ -256,12 +430,25 @@
         }
 
         function handlePublicDownload() {
-            document.getElementById('alert-msg').innerText = "Daily download limit reached for public access. Please try again tomorrow or use a premium license.";
-            document.getElementById('public-alert').classList.add('active');
+            closeDownloadModal();
+            setTimeout(() => {
+                document.getElementById('alert-msg').innerText = "Daily download limit reached for public access. Please try again tomorrow or use a premium license.";
+                document.getElementById('public-alert').classList.add('active');
+            }, 300);
+        }
+
+        function handlePremiumFailed() {
+            closeDownloadModal();
+            setTimeout(() => {
+                // Di web asli (Decoy), download premium selalu gagal
+                document.getElementById('alert-msg').innerText = "Premium Access Required. Please redeem a valid license key first to unlock uncapped download speeds.";
+                document.getElementById('public-alert').classList.add('active');
+            }, 300);
         }
 
         function closeAlert() { document.getElementById('public-alert').classList.remove('active'); }
 
+        // --- LOGIC SECRET VAULT ---
         let clicks = 0, timer;
         document.getElementById('sys-trigger').addEventListener('click', () => {
             clicks++; 
