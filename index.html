@@ -19,11 +19,9 @@
                     colors: { cyber: { 400: '#c084fc', 500: '#a855f7', 600: '#9333ea', dark: '#0a0a0c' } },
                     animation: { 
                         'fade-up': 'fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                        'float': 'float 6s ease-in-out infinite',
                     },
                     keyframes: {
-                        fadeUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } }
+                        fadeUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
                     }
                 }
             }
@@ -33,30 +31,21 @@
     <style>
         body { background-color: #030305; color: #e2e8f0; min-height: 100vh; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         
-        /* OPTIMASI: Menghapus filter: blur(40px) dan menggantinya dengan gradien yang sudah halus secara natural */
         .bg-orb-1 { position: fixed; top: -10%; left: -20%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(168, 85, 247, 0.02) 40%, transparent 70%); z-index: -2; pointer-events: none; }
         .bg-orb-2 { position: fixed; bottom: -10%; right: -10%; width: 40vw; height: 40vw; background: radial-gradient(circle, rgba(147, 51, 234, 0.08) 0%, rgba(147, 51, 234, 0.02) 40%, transparent 70%); z-index: -2; pointer-events: none; }
         .bg-grid { position: fixed; inset: 0; background-size: 40px 40px; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px); z-index: -3; mask-image: linear-gradient(to bottom, black 40%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%); }
 
-        /* OPTIMASI: Mengurangi intensitas blur dari 20px ke 8px, dan menebalkan warna background agar tetap terlihat seperti kaca */
         .glass-panel { background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); position: relative; overflow: hidden; }
         .glass-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); }
 
-        /* Styles khusus brankas rahasia */
         .btn-primary { background: linear-gradient(135deg, #9333ea, #c084fc); color: #ffffff; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.25); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5); filter: brightness(1.1); }
         .btn-primary:active { transform: translateY(1px) scale(0.98); }
-        .premium-input { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 12px 14px; width: 100%; border-radius: 10px; font-family: 'JetBrains Mono', monospace; outline: none; transition: all 0.3s; }
-        .premium-input:focus { border-color: #a855f7; background: rgba(168, 85, 247, 0.05); }
 
         .modal-overlay { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content { transform: scale(0.95); opacity: 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
-
-        #license-viewer { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.98); backdrop-filter: blur(30px); z-index: 105; display: flex; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; overflow-y: auto; padding: 16px; }
-        #license-viewer.active { opacity: 1; pointer-events: auto; }
-        .protected-media { pointer-events: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-user-drag: none; }
 
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -65,12 +54,10 @@
 </head>
 
 <body class="flex justify-center">
-    <!-- OPTIMASI: Menghilangkan class 'animate-float' agar background tidak perlu di-render ulang setiap frame -->
     <div class="bg-orb-1"></div>
     <div class="bg-orb-2"></div>
     <div class="bg-grid"></div>
 
-    <!-- OPTIMASI: Mengganti backdrop-blur-xl menjadi backdrop-blur-md -->
     <div class="w-full max-w-[480px] min-h-screen bg-cyber-dark/60 backdrop-blur-md border-x border-white/5 relative z-10 flex flex-col shadow-[0_0_80px_rgba(0,0,0,0.8)]">
         
         <header class="sticky top-0 z-50 bg-cyber-dark/80 backdrop-blur-md border-b border-white/5 px-5 py-4 flex justify-between items-center">
@@ -97,6 +84,7 @@
         </header>
 
         <div class="p-5 flex flex-col gap-5 pb-10">
+            <!-- Simulated Redeem Section -->
             <section class="glass-panel p-5 rounded-2xl border-t border-t-white/10 opacity-0 animate-fade-up">
                 <div class="flex items-center gap-3 mb-4">
                     <div class="w-8 h-8 rounded-full bg-cyber-500/10 text-cyber-400 flex items-center justify-center border border-cyber-500/20">
@@ -158,13 +146,13 @@
                     <a href="#" class="hover:text-white transition-colors">Licenses</a>
                 </div>
                 <div class="text-[10px] text-slate-600 flex items-center gap-1 select-none">
-                    © 2026 Aura Studio. All rights reserved. <span id="sys-trigger" class="ml-1 cursor-default hover:text-cyber-500 transition-colors">v2.4.1</span>
+                    © 2026 Aura Studio. All rights reserved. <span class="ml-1 text-slate-600">v2.4.1</span>
                 </div>
             </footer>
         </div>
     </div>
 
-    <!-- Login/Register Modal (Identik dengan simulasi) -->
+    <!-- Login/Register Modal -->
     <div id="login-modal" class="modal-overlay">
         <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[360px] border-t-2 border-t-cyber-400 relative overflow-hidden">
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-cyber-500/20 blur-3xl rounded-full"></div>
@@ -199,7 +187,7 @@
         </div>
     </div>
 
-    <!-- Modal Pilihan Download (Identik dengan simulasi) -->
+    <!-- Modal Pilihan Download -->
     <div id="download-modal" class="modal-overlay">
         <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[360px] border-t-2 border-t-cyber-400">
             <h3 class="font-bold text-white text-lg mb-1">Download Options</h3>
@@ -240,22 +228,7 @@
         </div>
     </div>
 
-    <!-- License Viewer Asli untuk File Decrypted -->
-    <div id="license-viewer">
-        <div class="flex justify-between items-center mb-6 max-w-[480px] mx-auto w-full pt-4 px-2">
-            <div class="text-xs font-bold text-white flex items-center gap-2">
-                <i class="fas fa-file-contract text-cyber-400"></i> Asset Document
-            </div>
-            <button onclick="closeViewer()" class="w-8 h-8 bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white rounded-full flex items-center justify-center transition-all">
-                <i class="fas fa-times text-sm"></i>
-            </button>
-        </div>
-        <div class="flex-1 flex items-center justify-center max-w-[480px] mx-auto w-full my-auto pb-10">
-            <div id="media-container" class="w-full flex flex-col items-center justify-center px-4"></div>
-        </div>
-    </div>
-
-    <!-- Public Alert -->
+    <!-- Public Alert Modal -->
     <div id="public-alert" class="modal-overlay z-[110]">
         <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] text-center border-t-2 border-t-red-500">
             <div class="w-14 h-14 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center text-2xl mx-auto mb-4">
@@ -266,28 +239,6 @@
             <button onclick="closeAlert()" class="w-full py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-colors">
                 CLOSE
             </button>
-        </div>
-    </div>
-
-    <!-- Secret Vault Prompt (Tersembunyi) -->
-    <div id="license-prompt" class="modal-overlay">
-        <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] border-t-2 border-t-cyber-500">
-            <div class="flex flex-col items-center text-center mb-5">
-                <div class="w-12 h-12 rounded-xl bg-cyber-500/10 text-cyber-400 flex items-center justify-center text-xl mb-3 border border-cyber-500/30">
-                    <i class="fas fa-key"></i>
-                </div>
-                <h3 class="font-bold text-white text-sm">System Access</h3>
-                <p class="text-[10px] text-slate-400 mt-1">Please enter your verified token.</p>
-            </div>
-            <input type="password" id="prompt-input" class="premium-input mb-5 text-center text-sm tracking-widest placeholder:tracking-normal" placeholder="Paste token..." autocomplete="off">
-            <div class="flex gap-3">
-                <button onclick="closePrompt(false)" class="flex-1 py-3 bg-white/5 text-slate-300 rounded-xl text-xs font-bold hover:bg-white/10 transition-colors">
-                    CANCEL
-                </button>
-                <button onclick="closePrompt(true)" class="flex-1 py-3 btn-primary rounded-xl text-xs font-bold">
-                    VERIFY
-                </button>
-            </div>
         </div>
     </div>
 
@@ -422,7 +373,7 @@
                 btn.innerHTML = originalText;
                 btn.classList.remove('pointer-events-none', 'opacity-75');
                 
-                // Di web asli (Decoy), SEMUA redeem key akan langsung dianggap Limit atau Expired
+                // Semuanya dianggap limit atau expired untuk menjaga simulasi
                 document.getElementById('alert-msg').innerText = "Activation Failed. This license key has already reached its maximum usage limit or has expired.";
                 document.getElementById('public-alert').classList.add('active');
                 document.getElementById('fake-input').value = '';
@@ -440,131 +391,12 @@
         function handlePremiumFailed() {
             closeDownloadModal();
             setTimeout(() => {
-                // Di web asli (Decoy), download premium selalu gagal
                 document.getElementById('alert-msg').innerText = "Premium Access Required. Please redeem a valid license key first to unlock uncapped download speeds.";
                 document.getElementById('public-alert').classList.add('active');
             }, 300);
         }
 
         function closeAlert() { document.getElementById('public-alert').classList.remove('active'); }
-
-        // --- LOGIC SECRET VAULT ---
-        let clicks = 0, timer;
-        document.getElementById('sys-trigger').addEventListener('click', () => {
-            clicks++; 
-            clearTimeout(timer);
-            if (clicks >= 5) {
-                clicks = 0; 
-                showAuthPrompt(verifyLicense);
-            } else { timer = setTimeout(() => clicks = 0, 1500); }
-        });
-        
-        let authCallback = null;
-        function showAuthPrompt(cb) {
-            authCallback = cb;
-            const input = document.getElementById('prompt-input');
-            input.value = '';
-            document.getElementById('license-prompt').classList.add('active');
-            setTimeout(() => input.focus(), 100);
-            input.onkeydown = (e) => { if(e.key === 'Enter') closePrompt(true); };
-        }
-        function closePrompt(submit) {
-            document.getElementById('license-prompt').classList.remove('active');
-            if(submit && authCallback) authCallback(document.getElementById('prompt-input').value);
-            authCallback = null;
-        }
-
-        async function verifyLicense(licenseKey) {
-            if (!licenseKey || !licenseKey.trim()) {
-                document.getElementById('alert-msg').innerText = "System Error: Token missing.";
-                document.getElementById('public-alert').classList.add('active');
-                return;
-            }
-
-            try {
-                const encoder = new TextEncoder();
-                const keyBytes = encoder.encode(licenseKey.trim());
-                const hashName = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', keyBytes)))
-                    .map(b => b.toString(16).padStart(2, '0')).join('');
-                
-                const response = await fetch(`${hashName}.enc`);
-                if (!response.ok) {
-                    document.getElementById('alert-msg').innerText = "Invalid token or data corrupted.";
-                    document.getElementById('public-alert').classList.add('active');
-                    return;
-                }
-                
-                const encryptedPayload = await response.arrayBuffer();
-                const salt = encryptedPayload.slice(0, 16);
-                const iv = encryptedPayload.slice(16, 28);
-                const ciphertext = encryptedPayload.slice(28);
-
-                const baseKey = await crypto.subtle.importKey('raw', keyBytes, { name: 'PBKDF2' }, false, ['deriveKey']);
-                const cryptoKey = await crypto.subtle.deriveKey(
-                    { name: 'PBKDF2', salt: new Uint8Array(salt), iterations: 100000, hash: 'SHA-256' },
-                    baseKey, { name: 'AES-GCM', length: 256 }, false, ['decrypt']
-                );
-
-                let rawBuffer;
-                try {
-                    rawBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: new Uint8Array(iv) }, cryptoKey, ciphertext);
-                } catch(e) {
-                    document.getElementById('alert-msg').innerText = "Decryption failed. Unauthorized token.";
-                    document.getElementById('public-alert').classList.add('active');
-                    return;
-                }
-
-                const dataArray = new Uint8Array(rawBuffer);
-                const extLen = dataArray[0];
-                const extStr = new TextDecoder().decode(dataArray.slice(1, 1 + extLen));
-                const fileContent = dataArray.slice(1 + extLen);
-
-                rawBuffer = null; 
-                const container = document.getElementById('media-container');
-
-                if (extStr === '.txt') {
-                    const textContent = new TextDecoder().decode(fileContent).trim();
-                    container.innerHTML = textContent.startsWith('http') ? 
-                        `<div class="glass-panel p-8 rounded-2xl text-center w-full max-w-sm border-t-2 border-t-cyber-500 animate-fade-up">
-                            <div class="w-16 h-16 rounded-full bg-cyber-500/10 border border-cyber-500/30 text-cyber-400 flex items-center justify-center mx-auto mb-4 text-2xl shadow-sm">
-                                <i class="fas fa-cloud-download-alt"></i>
-                            </div>
-                            <h2 class="text-white text-base font-bold mb-2 tracking-wide">ASSET UNLOCKED</h2>
-                            <p class="text-[10px] text-slate-400 mb-6">Your secure download link is ready.</p>
-                            <a href="${textContent}" target="_blank" class="w-full py-3.5 bg-white text-black rounded-xl block text-center text-xs font-extrabold hover:bg-slate-200 transition-all">
-                                ACCESS ASSET <i class="fas fa-external-link-alt ml-1"></i>
-                            </a>
-                        </div>` : 
-                        `<div class="glass-panel p-6 rounded-xl w-full border border-white/20 text-slate-300 font-mono whitespace-pre-wrap break-words text-xs leading-relaxed max-h-[70vh] overflow-y-auto animate-fade-up">${textContent}</div>`;
-                } else {
-                    let mime = 'application/octet-stream';
-                    if (['.jpg', '.jpeg'].includes(extStr)) mime = 'image/jpeg';
-                    else if (extStr === '.png') mime = 'image/png';
-                    else if (extStr === '.mp4') mime = 'video/mp4';
-
-                    const blob = new Blob([fileContent], { type: mime });
-                    const url = URL.createObjectURL(blob);
-                    
-                    const el = mime.startsWith('video/') ? 
-                        `<video src="${url}" controls autoplay class="w-full rounded-xl border border-white/10 shadow-2xl max-h-[70vh] bg-black protected-media"></video>` : 
-                        `<img src="${url}" class="w-full rounded-xl border border-white/10 shadow-2xl protected-media max-h-[70vh] object-contain bg-black/50">`;
-                        
-                    container.innerHTML = `<div class="w-full animate-fade-up">${el}</div>`;
-                }
-
-                document.body.style.overflow = 'hidden';
-                document.getElementById('license-viewer').classList.add('active');
-
-            } catch (err) {
-                document.getElementById('alert-msg').innerText = "System Error: " + err.message;
-                document.getElementById('public-alert').classList.add('active');
-            }
-        }
-
-        function closeViewer() {
-            document.getElementById('license-viewer').classList.remove('active');
-            setTimeout(() => { document.getElementById('media-container').innerHTML = ''; document.body.style.overflow = 'auto'; }, 400);
-        }
     </script>
 </body>
 </html>
